@@ -20,14 +20,11 @@ const App = () => {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/password-recovery" element={<PasswordRecovery />} />
-          <Route
-            path="/user-activation/:username"
-            element={<UserActivation />}
-          />
         </Route>
         <Route element={<RequiresAuth />}>
           <Route path="/" element={<Chat />} />
         </Route>
+        <Route path="/user-activation/:username" element={<UserActivation />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
