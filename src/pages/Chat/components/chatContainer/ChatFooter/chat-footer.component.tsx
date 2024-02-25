@@ -24,7 +24,7 @@ export const ChatFooter: React.FC = () => {
     <Box sx={ChatFooterStyles.container}>
       <TextField
         name="message"
-        value={chatFooterValues.msgToSend}
+        value={chatFooterValues.textMsgToSend}
         onChange={chatFooterActions.handleInputChange}
         multiline
         fullWidth

@@ -10,6 +10,7 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   const { auth } = useAuthContext();
   const [selectedChat, setSelectedChat] = useState<Room | null>(null);
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [textMsgToSend, setTextMsgToSend] = useState<string>("");
   const userId: string = auth.user!.id;
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   const handleRoomSelection = (room: Room): void => {
     try {
       if (selectedChat) {
+        setTextMsgToSend("");
         updateUserLastCheckedTime({
           roomId: selectedChat.id,
           userId,
@@ -63,6 +65,7 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
         userId,
       });
       setSelectedChat(null);
+      setTextMsgToSend("");
     } catch (error) {
       console.error(error);
     }
@@ -71,12 +74,13 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <ChatContext.Provider
       value={{
-        chatContextValues: { selectedChat, rooms },
+        chatContextValues: { selectedChat, rooms, textMsgToSend },
         chatContextActions: {
           handleRoomSelection,
           handleArrowBack,
           setSelectedChat,
           setRooms,
+          setTextMsgToSend,
         },
       }}
     >

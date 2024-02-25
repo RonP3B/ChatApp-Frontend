@@ -9,6 +9,7 @@ export interface ChatContextProps {
 interface ChatContextValues {
   selectedChat: Room | null;
   rooms: Room[];
+  textMsgToSend: string;
 }
 
 interface ChatContextActions {
@@ -16,4 +17,5 @@ interface ChatContextActions {
   handleArrowBack: () => void;
   setSelectedChat: Dispatch<SetStateAction<Room | null>>;
   setRooms: Dispatch<SetStateAction<Room[]>>;
+  setTextMsgToSend: Dispatch<SetStateAction<string>>;
 }

@@ -5,11 +5,13 @@ export const ChatContext = createContext<ChatContextProps>({
   chatContextValues: {
     selectedChat: null,
     rooms: [],
+    textMsgToSend: "",
   },
   chatContextActions: {
     handleRoomSelection: () => {},
     handleArrowBack: () => {},
     setSelectedChat: () => {},
     setRooms: () => {},
+    setTextMsgToSend: () => {},
   },
 });

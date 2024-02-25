@@ -20,19 +20,15 @@ import {
   MouseEvent,
   MutableRefObject,
   ChangeEvent,
-  useEffect,
 } from "react";
 
 export const useChatFooter = () => {
   const { auth } = useAuthContext();
   const { chatContextValues, chatContextActions } = useChatContext();
-  const [msgToSend, setMsgToSend] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  useEffect(() => setMsgToSend(""), [chatContextValues.selectedChat]);
-
   const open: boolean = Boolean(anchorEl);
-  const disableButton: boolean = !msgToSend.trim();
+  const disableButton: boolean = !chatContextValues.textMsgToSend.trim();
 
   const fileInputRefs: {
     [key: string]: MutableRefObject<HTMLInputElement | null>;
@@ -66,7 +62,7 @@ export const useChatFooter = () => {
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setMsgToSend(event.target.value);
+    chatContextActions.setTextMsgToSend(event.target.value);
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
@@ -99,7 +95,7 @@ export const useChatFooter = () => {
         auth.user!.id,
         chatContextValues.selectedChat!.id,
         MessageType.TEXT,
-        msgToSend.trim()
+        chatContextValues.textMsgToSend.trim()
       );
 
       addSenderNameToGroupMessage(messageToSend);
@@ -115,7 +111,7 @@ export const useChatFooter = () => {
         chatContextActions.setSelectedChat
       );
 
-      setMsgToSend("");
+      chatContextActions.setTextMsgToSend("");
 
       await handleMessageSending(
         messageToSend,
@@ -133,7 +129,7 @@ export const useChatFooter = () => {
 
   return {
     chatFooterValues: {
-      msgToSend,
+      textMsgToSend: chatContextValues.textMsgToSend,
       anchorEl,
       open,
       fileInputRefs,
