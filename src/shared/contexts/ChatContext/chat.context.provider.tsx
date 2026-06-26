@@ -2,16 +2,16 @@ import { ReactNode, useEffect, useState } from "react";
 import { ChatContext } from "./chat.context";
 import { Room } from "@/shared/interfaces";
 import { updateUserLastCheckedTime } from "@/shared/services";
-import { useAuthContext } from "../AuthContext/auth.context.hook";
+import { useCurrentUser } from "../AuthContext";
 
 export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { auth } = useAuthContext();
+  const auth = useCurrentUser();
   const [selectedChat, setSelectedChat] = useState<Room | null>(null);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [textMsgToSend, setTextMsgToSend] = useState<string>("");
-  const userId: string = auth.user!.id;
+  const userId: string = auth.user.id;
 
   useEffect(() => {
     const handleBeforeUnload = async (): Promise<void> => {

@@ -1,11 +1,11 @@
-import { useAuthContext, useChatContext } from "@/shared/contexts";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { User } from "@/shared/interfaces";
 import { useMediaQuery } from "@mui/material";
 
 export const useChatHeader = () => {
   const isScreenBelow900px = useMediaQuery("(max-width:899px)");
-  const { chatContextValues } = useChatContext();
-  const { auth } = useAuthContext();
+  const currentUser = useCurrentUser();
+  const loggedUserId: string = currentUser.user.id;
 
   const loggedUserId: string = auth.user!.id;
 

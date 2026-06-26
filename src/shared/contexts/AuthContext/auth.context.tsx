@@ -1,7 +1,6 @@
 import { createContext } from "react";
-import { AuthContextProps } from "./auth..context.interface";
+import { AuthActions, AuthState } from "./auth.context.type";
 
-export const AuthContext = createContext<AuthContextProps>({
-  auth: { token: "", user: null },
-  setAuth: () => {},
-});
+export const AuthStateContext = createContext<AuthState | null>(null);
+
+export const AuthActionsContext = createContext<AuthActions | null>(null);

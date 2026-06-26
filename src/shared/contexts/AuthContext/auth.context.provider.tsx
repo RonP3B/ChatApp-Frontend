@@ -1,18 +1,19 @@
-import { User } from "@/shared/interfaces";
-import { ReactNode, useState } from "react";
-import { AuthContext } from "./auth.context";
+import { ReactNode, useMemo, useState } from "react";
+import { AuthActionsContext, AuthStateContext } from "./auth.context";
+import { AuthActions, AuthState } from "./auth.context.type";
+import { initialAuthState } from "./auth.context.const";
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [auth, setAuth] = useState<{ token: string; user: User | null }>({
-    token: "",
-    user: null,
-  });
+  const [auth, setAuth] = useState<AuthState>(initialAuthState);
+  const actions: AuthActions = useMemo(() => ({ setAuth }), []);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthActionsContext.Provider value={actions}>
+      <AuthStateContext.Provider value={auth}>
+        {children}
+      </AuthStateContext.Provider>
+    </AuthActionsContext.Provider>
   );
 };

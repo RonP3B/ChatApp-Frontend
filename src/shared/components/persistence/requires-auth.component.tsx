@@ -5,13 +5,13 @@ import {
   ChatContextProvider,
   ColorModeContextProvider,
   SocketContextProvider,
-  useAuthContext,
 } from "@/shared/contexts";
+import { AuthStatus, useAuth } from "@/shared/contexts/AuthContext";
 
 export const RequiresAuth: React.FC = () => {
-  const { auth } = useAuthContext();
+  const auth = useAuth();
 
-  if (auth.token) {
+  if (auth.status === AuthStatus.Authenticated) {
     return (
       <SocketContextProvider>
         <ColorModeContextProvider>

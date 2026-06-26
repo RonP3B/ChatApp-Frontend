@@ -5,6 +5,7 @@ import { useToast } from "@/shared/hooks";
 import { Message, User } from "@/shared/interfaces";
 import { nanoid } from "nanoid";
 import { FileTypeMaxSizes, MessageType } from "@/shared/enums";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import {
   addMessageToSelectedChat,
   createMessageToDisplay,
@@ -16,7 +17,7 @@ import {
 export const useHiddenInputFile = () => {
   const { chatContextActions } = useChatContext();
   const { chatContextValues } = useChatContext();
-  const { auth } = useAuthContext();
+  const currentUser = useCurrentUser();
   const toast = useToast();
 
   const handleOnChangeInput = (
@@ -33,7 +34,7 @@ export const useHiddenInputFile = () => {
     messageToSend: SendMessageValues
   ): void => {
     if (chatContextValues.selectedChat!.isGroup) {
-      messageToSend["senderName"] = auth.user!.username;
+      messageToSend["senderName"] = currentUser.user.username;
     }
   };
 
@@ -49,7 +50,7 @@ export const useHiddenInputFile = () => {
       if (!validateFileMessage(explicitFileType, file)) return;
 
       const messageToSend: SendMessageValues = createMessageToSend(
-        auth.user!.id,
+        currentUser.user.id,
         chatContextValues.selectedChat!.id,
         MessageType[explicitFileType.toUpperCase() as keyof typeof MessageType],
         file
@@ -60,7 +61,7 @@ export const useHiddenInputFile = () => {
       const messageToDisplay: Message = await createMessageToDisplay(
         messageToSend,
         messageToDisplayId,
-        auth.user as User,
+        currentUser.user,
         file
       );
 
@@ -71,7 +72,7 @@ export const useHiddenInputFile = () => {
 
       await handleMessageSending(
         messageToSend,
-        auth.user!.username,
+        currentUser.user.username,
         `${explicitFileType} sent.`,
         chatContextActions.setRooms
       );

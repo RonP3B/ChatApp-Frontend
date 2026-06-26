@@ -1,5 +1,6 @@
 import { createRoom, getUsers } from "@/pages/Chat/services";
-import { useAuthContext, useChatContext } from "@/shared/contexts";
+import { useChatActionsContext } from "@/shared/contexts";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { Room, User } from "@/shared/interfaces";
 import { getAxiosErrorMsg } from "@/shared/utils";
@@ -8,7 +9,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 export const useNewChat = (handleClose: () => void) => {
   const { chatContextActions } = useChatContext();
-  const { auth } = useAuthContext();
+  const currentUser = useCurrentUser();
   const toast = useToast();
   const toastRef = useRef(toast);
   const [usernameFilter, setUsernameFilter] = useState<string>("");
@@ -18,7 +19,7 @@ export const useNewChat = (handleClose: () => void) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
-  const loggedUserId: string = auth.user!.id;
+  const loggedUserId: string = currentUser.user.id;
 
   useEffect(() => {
     const fetchUsers = async (): Promise<void> => {

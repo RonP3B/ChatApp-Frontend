@@ -1,18 +1,27 @@
 import { chatAppAPI } from "@/shared/APIs";
-import { useAuthContext } from "@/shared/contexts";
 import { useRefreshToken } from "@/shared/hooks";
 import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { useEffect } from "react";
+import {
+  AuthStatus,
+  initialAuthState,
+  useAuth,
+  useAuthActions,
+} from "@/shared/contexts/AuthContext";
 
 export const ChatAppApiInterceptor: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { auth, setAuth } = useAuthContext();
+  const auth = useAuth();
+  const { setAuth } = useAuthActions();
   const { refreshAccessToken } = useRefreshToken();
 
   const requestIntercept = chatAppAPI.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-      if (!config.headers["Authorization"] && auth.token) {
+      if (
+        !config.headers["Authorization"] &&
+        auth.status === AuthStatus.Authenticated
+      ) {
         config.headers["Authorization"] = `Bearer ${auth.token}`;
       }
       return config;
@@ -32,7 +41,7 @@ export const ChatAppApiInterceptor: React.FC<{ children: React.ReactNode }> = ({
         const newToken = await refreshAccessToken();
 
         if (!newToken) {
-          setAuth({ token: "", user: null });
+          setAuth(initialAuthState);
           return;
         }
 

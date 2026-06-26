@@ -3,7 +3,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import CameraRollIcon from "@mui/icons-material/CameraRoll";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import { AcceptedFileTypes, MessageType } from "@/shared/enums";
-import { useAuthContext, useChatContext } from "@/shared/contexts";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { SendMessageValues } from "@/pages/Chat/interfaces";
 import { Message, User } from "@/shared/interfaces";
 import { nanoid } from "nanoid";
@@ -23,7 +23,8 @@ import {
 } from "react";
 
 export const useChatFooter = () => {
-  const { auth } = useAuthContext();
+  const currentUser = useCurrentUser();
+  const selectedChat = useAuthContext();
   const { chatContextValues, chatContextActions } = useChatContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -83,7 +84,7 @@ export const useChatFooter = () => {
     messageToSend: SendMessageValues
   ): void => {
     if (chatContextValues.selectedChat!.isGroup) {
-      messageToSend["senderName"] = auth.user!.username;
+      messageToSend["senderName"] = currentUser.user.username;
     }
   };
 
@@ -92,7 +93,7 @@ export const useChatFooter = () => {
 
     try {
       const messageToSend: SendMessageValues = createMessageToSend(
-        auth.user!.id,
+        currentUser.user.id,
         chatContextValues.selectedChat!.id,
         MessageType.TEXT,
         chatContextValues.textMsgToSend.trim()
@@ -103,7 +104,7 @@ export const useChatFooter = () => {
       const messageToDisplay: Message = await createMessageToDisplay(
         messageToSend,
         messageToDisplayId,
-        auth.user as User
+        currentUser.user
       );
 
       addMessageToSelectedChat(
@@ -115,7 +116,7 @@ export const useChatFooter = () => {
 
       await handleMessageSending(
         messageToSend,
-        auth.user!.username,
+        currentUser.user.username,
         messageToSend.content as string,
         chatContextActions.setRooms
       );
