@@ -1,7 +1,8 @@
 import { ReactNode, useMemo, useState } from "react";
-import { AuthActionsContext, AuthStateContext } from "./auth.context";
-import { AuthActions, AuthState } from "./auth.context.type";
-import { initialAuthState } from "./auth.context.const";
+import { AuthActionsContext, AuthStateContext } from "./auth-context";
+import { AuthState } from "./auth-context.type";
+import { initialAuthState } from "./auth-context.const";
+import { AuthActions } from "./auth-context.interface";
 
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
   children,

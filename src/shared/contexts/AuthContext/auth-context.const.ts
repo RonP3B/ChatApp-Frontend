@@ -1,4 +1,4 @@
-import { UnauthenticatedUser } from "./auth.context.type";
+import { UnauthenticatedUser } from "./auth-context.interface";
 
 export const AuthStatus = {
   Authenticated: "authenticated",
@@ -7,6 +7,4 @@ export const AuthStatus = {
 
 export const initialAuthState: UnauthenticatedUser = {
   status: AuthStatus.Unauthenticated,
-  token: "",
-  user: null,
 };
