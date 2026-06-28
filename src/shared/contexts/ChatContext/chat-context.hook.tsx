@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { ChatContextActions } from "./chat.context.interface";
+import { ChatContextActions } from "./chat-context.interface";
 import { Room } from "@/shared/interfaces";
 import {
   ChatActionsContext,
   ChatDraftContext,
   ChatRoomsContext,
   SelectedChatContext,
-} from "./chat.context";
+} from "./chat-context";
 
 export const useChatActions = (): ChatContextActions => {
   const chatActions = useContext(ChatActionsContext);

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Room } from "@/shared/interfaces";
-import { ChatContextActions } from "./chat.context.interface";
+import { ChatContextActions } from "./chat-context.interface";
 
 export const SelectedChatContext = createContext<Room | null | undefined>(
   undefined

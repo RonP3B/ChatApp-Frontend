@@ -1,14 +1,14 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { Room } from "@/shared/interfaces";
 import { updateUserLastCheckedTime } from "@/shared/services";
-import { ChatContextActions } from "./chat.context.interface";
+import { ChatContextActions } from "./chat-context.interface";
 import { useCurrentUser } from "../AuthContext";
 import {
   ChatActionsContext,
   ChatDraftContext,
   ChatRoomsContext,
   SelectedChatContext,
-} from "./chat.context";
+} from "./chat-context";
 
 export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
