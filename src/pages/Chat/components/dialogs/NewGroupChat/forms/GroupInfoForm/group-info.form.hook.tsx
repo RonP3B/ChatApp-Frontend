@@ -4,16 +4,16 @@ import { Room, User } from "@/shared/interfaces";
 import { AxiosResponse } from "axios";
 import { createGroupRoom } from "@/pages/Chat/services";
 import { CreateGroupRoomValues } from "@/pages/Chat/interfaces";
-import { useChatContext } from "@/shared/contexts";
 import { getAxiosErrorMsg } from "@/shared/utils";
 import { useToast } from "@/shared/hooks";
+import { useChatActions } from "@/shared/contexts/ChatContext";
 
 export const useGroupInfoForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
   handleClose: () => void,
   groupMembers: User[]
 ) => {
-  const { chatContextActions } = useChatContext();
+  const chatActions = useChatActions();
   const toast = useToast();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -43,8 +43,8 @@ export const useGroupInfoForm = (
       };
       const res: AxiosResponse = await createGroupRoom(newGroupRoom);
       const newGroupChatRoom: Room = res.data;
-      chatContextActions.setSelectedChat(newGroupChatRoom);
-      chatContextActions.setRooms((prev) => [newGroupChatRoom, ...prev]);
+      chatActions.setSelectedChat(newGroupChatRoom);
+      chatActions.setRooms((prev) => [newGroupChatRoom, ...prev]);
       handleClose();
       setActiveStep(0);
     } catch (error) {

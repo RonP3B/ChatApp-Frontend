@@ -1,6 +1,6 @@
 import { createRoom, getUsers } from "@/pages/Chat/services";
-import { useChatActionsContext } from "@/shared/contexts";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
+import { useChatActions } from "@/shared/contexts/ChatContext";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { Room, User } from "@/shared/interfaces";
 import { getAxiosErrorMsg } from "@/shared/utils";
@@ -8,7 +8,7 @@ import { AxiosResponse } from "axios";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 export const useNewChat = (handleClose: () => void) => {
-  const { chatContextActions } = useChatContext();
+  const chatActions = useChatActions();
   const currentUser = useCurrentUser();
   const toast = useToast();
   const toastRef = useRef(toast);
@@ -62,8 +62,8 @@ export const useNewChat = (handleClose: () => void) => {
         participantId: selectedUser!.id,
       });
       const newChatRoom: Room = res.data;
-      chatContextActions.setRooms((prev) => [newChatRoom, ...prev]);
-      chatContextActions.setSelectedChat(newChatRoom);
+      chatActions.setRooms((prev) => [newChatRoom, ...prev]);
+      chatActions.setSelectedChat(newChatRoom);
       handleClose();
     } catch (error) {
       const errorMsg: string = getAxiosErrorMsg(error, "create the chat room");

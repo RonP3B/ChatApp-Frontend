@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import musicBoxSound from "@/assets/audio/music-box-sound.mp3";
-import { useChatContext } from "@/shared/contexts";
 import { Message } from "@/shared/interfaces";
+import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import {
   addMessageToSelectedChat,
   playAudio,
@@ -9,9 +9,8 @@ import {
 } from "@/pages/Chat/utils";
 
 export const useMessageReceivedEvent = () => {
-  const { chatContextActions, chatContextValues } = useChatContext();
-  const { setRooms, setSelectedChat } = chatContextActions;
-  const { selectedChat } = chatContextValues;
+  const { setRooms, setSelectedChat } = useChatActions();
+  const selectedChat = useSelectedChat();
 
   const updateRooms = useCallback(
     (message: Message): void => {

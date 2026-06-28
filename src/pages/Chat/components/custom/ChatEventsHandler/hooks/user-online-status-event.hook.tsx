@@ -1,11 +1,15 @@
-import { useChatContext } from "@/shared/contexts";
 import { Room, User, UserOnlineStatusUpdated } from "@/shared/interfaces";
 import { useCallback } from "react";
+import {
+  useChatActions,
+  useChatRooms,
+  useSelectedChat,
+} from "@/shared/contexts/ChatContext";
 
 export const useUserOnlineStatusEvent = () => {
-  const { chatContextActions, chatContextValues } = useChatContext();
-  const { setRooms, setSelectedChat } = chatContextActions;
-  const { rooms, selectedChat } = chatContextValues;
+  const { setRooms, setSelectedChat } = useChatActions();
+  const rooms = useChatRooms();
+  const selectedChat = useSelectedChat();
 
   const updateParticipantsOnlineStatus = (
     participants: User[],
@@ -20,13 +24,15 @@ export const useUserOnlineStatusEvent = () => {
 
   const updateSelectedChat = useCallback(
     (user: UserOnlineStatusUpdated): void => {
+      if (!selectedChat) return;
+
       const updatedParticipants: User[] = updateParticipantsOnlineStatus(
-        selectedChat!.participants,
+        selectedChat.participants,
         user.id,
         user.isOnline
       );
 
-      setSelectedChat({ ...selectedChat!, participants: updatedParticipants });
+      setSelectedChat({ ...selectedChat, participants: updatedParticipants });
     },
     [selectedChat, setSelectedChat]
   );
@@ -60,7 +66,7 @@ export const useUserOnlineStatusEvent = () => {
 
       if (selectedChat) {
         const isUserInSelectedChat: boolean = user.rooms.some(
-          (room) => room.id === selectedChat!.id
+          (room) => room.id === selectedChat.id
         );
         isUserInSelectedChat && updateSelectedChat(user);
       }

@@ -3,10 +3,17 @@ import ImageIcon from "@mui/icons-material/Image";
 import CameraRollIcon from "@mui/icons-material/CameraRoll";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import { AcceptedFileTypes, MessageType } from "@/shared/enums";
+import { Message } from "@/shared/interfaces";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { SendMessageValues } from "@/pages/Chat/interfaces";
-import { Message, User } from "@/shared/interfaces";
 import { nanoid } from "nanoid";
+import {
+  useState,
+  useRef,
+  MouseEvent,
+  MutableRefObject,
+  ChangeEvent,
+} from "react";
 import {
   addMessageToSelectedChat,
   createMessageToDisplay,
@@ -15,21 +22,20 @@ import {
   handleMessageSendingFailure,
 } from "@/pages/Chat/utils";
 import {
-  useState,
-  useRef,
-  MouseEvent,
-  MutableRefObject,
-  ChangeEvent,
-} from "react";
+  useSelectedChat,
+  useChatDraft,
+  useChatActions,
+} from "@/shared/contexts/ChatContext";
 
 export const useChatFooter = () => {
   const currentUser = useCurrentUser();
-  const selectedChat = useAuthContext();
-  const { chatContextValues, chatContextActions } = useChatContext();
+  const selectedChat = useSelectedChat();
+  const textMsgToSend = useChatDraft();
+  const chatActions = useChatActions();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open: boolean = Boolean(anchorEl);
-  const disableButton: boolean = !chatContextValues.textMsgToSend.trim();
+  const disableButton: boolean = !textMsgToSend.trim();
 
   const fileInputRefs: {
     [key: string]: MutableRefObject<HTMLInputElement | null>;
@@ -63,7 +69,7 @@ export const useChatFooter = () => {
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    chatContextActions.setTextMsgToSend(event.target.value);
+    chatActions.setTextMsgToSend(event.target.value);
   };
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
@@ -83,20 +89,22 @@ export const useChatFooter = () => {
   const addSenderNameToGroupMessage = (
     messageToSend: SendMessageValues
   ): void => {
-    if (chatContextValues.selectedChat!.isGroup) {
+    if (selectedChat?.isGroup) {
       messageToSend["senderName"] = currentUser.user.username;
     }
   };
 
   const sendTextMessage = async (): Promise<void> => {
+    if (!selectedChat) return;
+
     const messageToDisplayId: string = nanoid();
 
     try {
       const messageToSend: SendMessageValues = createMessageToSend(
         currentUser.user.id,
-        chatContextValues.selectedChat!.id,
+        selectedChat.id,
         MessageType.TEXT,
-        chatContextValues.textMsgToSend.trim()
+        textMsgToSend.trim()
       );
 
       addSenderNameToGroupMessage(messageToSend);
@@ -107,30 +115,27 @@ export const useChatFooter = () => {
         currentUser.user
       );
 
-      addMessageToSelectedChat(
-        messageToDisplay,
-        chatContextActions.setSelectedChat
-      );
+      addMessageToSelectedChat(messageToDisplay, chatActions.setSelectedChat);
 
-      chatContextActions.setTextMsgToSend("");
+      chatActions.setTextMsgToSend("");
 
       await handleMessageSending(
         messageToSend,
         currentUser.user.username,
         messageToSend.content as string,
-        chatContextActions.setRooms
+        chatActions.setRooms
       );
     } catch (error) {
       handleMessageSendingFailure(
         messageToDisplayId,
-        chatContextActions.setSelectedChat
+        chatActions.setSelectedChat
       );
     }
   };
 
   return {
     chatFooterValues: {
-      textMsgToSend: chatContextValues.textMsgToSend,
+      textMsgToSend,
       anchorEl,
       open,
       fileInputRefs,

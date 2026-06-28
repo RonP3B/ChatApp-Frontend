@@ -1,17 +1,15 @@
 import { createContext } from "react";
-import { ChatContextProps } from "./chat.context.interface";
+import { Room } from "@/shared/interfaces";
+import { ChatContextActions } from "./chat.context.interface";
 
-export const ChatContext = createContext<ChatContextProps>({
-  chatContextValues: {
-    selectedChat: null,
-    rooms: [],
-    textMsgToSend: "",
-  },
-  chatContextActions: {
-    handleRoomSelection: () => {},
-    handleArrowBack: () => {},
-    setSelectedChat: () => {},
-    setRooms: () => {},
-    setTextMsgToSend: () => {},
-  },
-});
+export const SelectedChatContext = createContext<Room | null | undefined>(
+  undefined
+);
+
+export const ChatRoomsContext = createContext<Room[] | null>(null);
+
+export const ChatDraftContext = createContext<string | null>(null);
+
+export const ChatActionsContext = createContext<ChatContextActions | null>(
+  null
+);

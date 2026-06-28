@@ -1,11 +1,11 @@
 import { ChangeEvent } from "react";
 import { SendMessageValues } from "@/pages/Chat/interfaces";
-import { useAuthContext, useChatContext } from "@/shared/contexts";
 import { useToast } from "@/shared/hooks";
-import { Message, User } from "@/shared/interfaces";
+import { Message } from "@/shared/interfaces";
 import { nanoid } from "nanoid";
 import { FileTypeMaxSizes, MessageType } from "@/shared/enums";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
+import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import {
   addMessageToSelectedChat,
   createMessageToDisplay,
@@ -15,8 +15,8 @@ import {
 } from "@/pages/Chat/utils";
 
 export const useHiddenInputFile = () => {
-  const { chatContextActions } = useChatContext();
-  const { chatContextValues } = useChatContext();
+  const chatActions = useChatActions();
+  const selectedChat = useSelectedChat();
   const currentUser = useCurrentUser();
   const toast = useToast();
 
@@ -33,7 +33,7 @@ export const useHiddenInputFile = () => {
   const addSenderNameToGroupMessage = (
     messageToSend: SendMessageValues
   ): void => {
-    if (chatContextValues.selectedChat!.isGroup) {
+    if (selectedChat?.isGroup) {
       messageToSend["senderName"] = currentUser.user.username;
     }
   };
@@ -42,6 +42,8 @@ export const useHiddenInputFile = () => {
     file: File,
     fileType: string
   ): Promise<void> => {
+    if (!selectedChat) return;
+
     const messageToDisplayId: string = nanoid();
 
     try {
@@ -51,7 +53,7 @@ export const useHiddenInputFile = () => {
 
       const messageToSend: SendMessageValues = createMessageToSend(
         currentUser.user.id,
-        chatContextValues.selectedChat!.id,
+        selectedChat.id,
         MessageType[explicitFileType.toUpperCase() as keyof typeof MessageType],
         file
       );
@@ -65,21 +67,18 @@ export const useHiddenInputFile = () => {
         file
       );
 
-      addMessageToSelectedChat(
-        messageToDisplay,
-        chatContextActions.setSelectedChat
-      );
+      addMessageToSelectedChat(messageToDisplay, chatActions.setSelectedChat);
 
       await handleMessageSending(
         messageToSend,
         currentUser.user.username,
         `${explicitFileType} sent.`,
-        chatContextActions.setRooms
+        chatActions.setRooms
       );
     } catch (error) {
       handleMessageSendingFailure(
         messageToDisplayId,
-        chatContextActions.setSelectedChat
+        chatActions.setSelectedChat
       );
     }
   };

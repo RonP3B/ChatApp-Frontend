@@ -1,8 +1,14 @@
-import { ReactNode, useEffect, useState } from "react";
-import { ChatContext } from "./chat.context";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { Room } from "@/shared/interfaces";
 import { updateUserLastCheckedTime } from "@/shared/services";
+import { ChatContextActions } from "./chat.context.interface";
 import { useCurrentUser } from "../AuthContext";
+import {
+  ChatActionsContext,
+  ChatDraftContext,
+  ChatRoomsContext,
+  SelectedChatContext,
+} from "./chat.context";
 
 export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -33,35 +39,39 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
     };
   }, [selectedChat, userId]);
 
-  const handleRoomSelection = (room: Room): void => {
-    try {
-      if (selectedChat) {
-        setTextMsgToSend("");
-        updateUserLastCheckedTime({
-          roomId: selectedChat.id,
-          userId,
-        });
+  const handleRoomSelection = useCallback(
+    (room: Room): void => {
+      try {
+        if (selectedChat) {
+          setTextMsgToSend("");
+          updateUserLastCheckedTime({
+            roomId: selectedChat.id,
+            userId,
+          });
+        }
+
+        if (room.unreadMessages) {
+          setRooms((prev) =>
+            prev.map((currRoom) => {
+              if (room.id !== currRoom.id) return currRoom;
+              return { ...currRoom, unreadMessages: 0 };
+            })
+          );
+        }
+
+        setSelectedChat(room);
+      } catch (error) {
+        console.error(error);
       }
+    },
+    [selectedChat, userId]
+  );
 
-      if (room.unreadMessages) {
-        setRooms((prev) =>
-          prev.map((currRoom) => {
-            if (room.id !== currRoom.id) return currRoom;
-            return { ...currRoom, unreadMessages: 0 };
-          })
-        );
-      }
-
-      setSelectedChat(room);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleArrowBack = (): void => {
+  const handleArrowBack = useCallback((): void => {
     try {
+      if (!selectedChat) return;
       updateUserLastCheckedTime({
-        roomId: selectedChat!.id,
+        roomId: selectedChat.id,
         userId,
       });
       setSelectedChat(null);
@@ -69,22 +79,28 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [selectedChat, userId]);
+
+  const chatActions: ChatContextActions = useMemo(
+    () => ({
+      handleRoomSelection,
+      handleArrowBack,
+      setSelectedChat,
+      setRooms,
+      setTextMsgToSend,
+    }),
+    [handleArrowBack, handleRoomSelection]
+  );
 
   return (
-    <ChatContext.Provider
-      value={{
-        chatContextValues: { selectedChat, rooms, textMsgToSend },
-        chatContextActions: {
-          handleRoomSelection,
-          handleArrowBack,
-          setSelectedChat,
-          setRooms,
-          setTextMsgToSend,
-        },
-      }}
-    >
-      {children}
-    </ChatContext.Provider>
+    <ChatRoomsContext.Provider value={rooms}>
+      <SelectedChatContext.Provider value={selectedChat}>
+        <ChatDraftContext.Provider value={textMsgToSend}>
+          <ChatActionsContext.Provider value={chatActions}>
+            {children}
+          </ChatActionsContext.Provider>
+        </ChatDraftContext.Provider>
+      </SelectedChatContext.Provider>
+    </ChatRoomsContext.Provider>
   );
 };
