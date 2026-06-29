@@ -1,17 +1,17 @@
 import { ConfirmProvider } from "material-ui-confirm";
 import { Outlet, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { AuthStatus, useAuth } from "@/shared/contexts/AuthContext";
 import {
   ChatContextProvider,
   ColorModeContextProvider,
   SocketContextProvider,
-  useAuthContext,
 } from "@/shared/contexts";
 
 export const RequiresAuth: React.FC = () => {
-  const { auth } = useAuthContext();
+  const auth = useAuth();
 
-  if (auth.token) {
+  if (auth.status === AuthStatus.Authenticated) {
     return (
       <SocketContextProvider>
         <ColorModeContextProvider>

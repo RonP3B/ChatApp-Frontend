@@ -1,13 +1,14 @@
-import { useAuthContext, useSocketContext } from "@/shared/contexts";
 import { useConfirm, ConfirmOptions } from "material-ui-confirm";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services";
 import { getAxiosErrorMsg } from "../utils";
 import { useToast } from "./toast.hook";
+import { useAuthActions, initialAuthState } from "../contexts/AuthContext";
+import { useSocket } from "../contexts/SocketContext";
 
 export const useLogOutUser = () => {
-  const { setAuth } = useAuthContext();
-  const { disconnectSocket } = useSocketContext();
+  const { setAuth } = useAuthActions();
+  const { disconnectSocket } = useSocket();
   const navigate = useNavigate();
   const confirm = useConfirm();
   const toast = useToast();
@@ -21,7 +22,7 @@ export const useLogOutUser = () => {
       };
       await confirm(confirmOptions);
       await logOut();
-      setAuth({ token: "", user: null });
+      setAuth(initialAuthState);
       disconnectSocket();
       navigate("/sign-in");
     } catch (error) {

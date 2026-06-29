@@ -1,10 +1,10 @@
 import { AxiosResponse } from "axios";
-import { useAuthContext } from "../contexts/AuthContext/auth.context.hook";
 import { decodeJWT } from "../utils";
 import { getAccessToken, validateRefreshToken } from "../services";
+import { AuthStatus, useAuthActions } from "../contexts/AuthContext";
 
 export const useRefreshToken = () => {
-  const { setAuth } = useAuthContext();
+  const { setAuth } = useAuthActions();
 
   const refreshAccessToken = async (): Promise<string | null> => {
     let token: string | null = null;
@@ -15,7 +15,11 @@ export const useRefreshToken = () => {
       if (!isValidRefreshToken) return null;
       res = await getAccessToken();
       token = res.data.accessToken as string;
-      setAuth({ token: token, user: decodeJWT(token) });
+      setAuth({
+        status: AuthStatus.Authenticated,
+        token: token,
+        user: decodeJWT(token),
+      });
     } catch (error) {
       console.error(error);
     }

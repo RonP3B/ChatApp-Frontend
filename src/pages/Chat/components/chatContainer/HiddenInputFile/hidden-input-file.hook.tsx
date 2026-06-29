@@ -1,10 +1,11 @@
 import { ChangeEvent } from "react";
 import { SendMessageValues } from "@/pages/Chat/interfaces";
-import { useAuthContext, useChatContext } from "@/shared/contexts";
 import { useToast } from "@/shared/hooks";
-import { Message, User } from "@/shared/interfaces";
+import { Message } from "@/shared/interfaces";
 import { nanoid } from "nanoid";
 import { FileTypeMaxSizes, MessageType } from "@/shared/enums";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
+import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import {
   addMessageToSelectedChat,
   createMessageToDisplay,
@@ -14,9 +15,9 @@ import {
 } from "@/pages/Chat/utils";
 
 export const useHiddenInputFile = () => {
-  const { chatContextActions } = useChatContext();
-  const { chatContextValues } = useChatContext();
-  const { auth } = useAuthContext();
+  const chatActions = useChatActions();
+  const selectedChat = useSelectedChat();
+  const currentUser = useCurrentUser();
   const toast = useToast();
 
   const handleOnChangeInput = (
@@ -32,8 +33,8 @@ export const useHiddenInputFile = () => {
   const addSenderNameToGroupMessage = (
     messageToSend: SendMessageValues
   ): void => {
-    if (chatContextValues.selectedChat!.isGroup) {
-      messageToSend["senderName"] = auth.user!.username;
+    if (selectedChat?.isGroup) {
+      messageToSend["senderName"] = currentUser.user.username;
     }
   };
 
@@ -41,6 +42,8 @@ export const useHiddenInputFile = () => {
     file: File,
     fileType: string
   ): Promise<void> => {
+    if (!selectedChat) return;
+
     const messageToDisplayId: string = nanoid();
 
     try {
@@ -49,8 +52,8 @@ export const useHiddenInputFile = () => {
       if (!validateFileMessage(explicitFileType, file)) return;
 
       const messageToSend: SendMessageValues = createMessageToSend(
-        auth.user!.id,
-        chatContextValues.selectedChat!.id,
+        currentUser.user.id,
+        selectedChat.id,
         MessageType[explicitFileType.toUpperCase() as keyof typeof MessageType],
         file
       );
@@ -60,25 +63,22 @@ export const useHiddenInputFile = () => {
       const messageToDisplay: Message = await createMessageToDisplay(
         messageToSend,
         messageToDisplayId,
-        auth.user as User,
+        currentUser.user,
         file
       );
 
-      addMessageToSelectedChat(
-        messageToDisplay,
-        chatContextActions.setSelectedChat
-      );
+      addMessageToSelectedChat(messageToDisplay, chatActions.setSelectedChat);
 
       await handleMessageSending(
         messageToSend,
-        auth.user!.username,
+        currentUser.user.username,
         `${explicitFileType} sent.`,
-        chatContextActions.setRooms
+        chatActions.setRooms
       );
     } catch (error) {
       handleMessageSendingFailure(
         messageToDisplayId,
-        chatContextActions.setSelectedChat
+        chatActions.setSelectedChat
       );
     }
   };

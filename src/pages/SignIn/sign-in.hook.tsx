@@ -7,10 +7,10 @@ import { decodeJWT, getAxiosErrorMsg } from "@/shared/utils";
 import { User } from "@/shared/interfaces";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuthContext } from "@/shared/contexts";
+import { AuthStatus, useAuthActions } from "@/shared/contexts/AuthContext";
 
 export const useSignIn = () => {
-  const { setAuth } = useAuthContext();
+  const { setAuth } = useAuthActions();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -27,7 +27,11 @@ export const useSignIn = () => {
       const res: AxiosResponse = await signIn(values);
       const accessToken: string = res.data.accessToken;
       const payload: User = decodeJWT(accessToken);
-      setAuth({ token: accessToken, user: payload });
+      setAuth({
+        status: AuthStatus.Authenticated,
+        token: accessToken,
+        user: payload,
+      });
       navigate("/");
     } catch (error) {
       const errorMsg: string = getAxiosErrorMsg(error, "sign in");

@@ -1,20 +1,18 @@
-import { useAuthContext, useChatContext } from "@/shared/contexts";
-import { User } from "@/shared/interfaces";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
+import { Room, User } from "@/shared/interfaces";
 import { useMediaQuery } from "@mui/material";
 
-export const useChatHeader = () => {
+export const useChatHeader = (selectedChat: Room | null) => {
   const isScreenBelow900px = useMediaQuery("(max-width:899px)");
-  const { chatContextValues } = useChatContext();
-  const { auth } = useAuthContext();
+  const currentUser = useCurrentUser();
+  const loggedUserId: string = currentUser.user.id;
 
-  const loggedUserId: string = auth.user!.id;
-
-  const selectedChat = chatContextValues.selectedChat || {
+  const chat = selectedChat || {
     isGroup: false,
     participants: [],
   };
 
-  const { isGroup, participants } = selectedChat;
+  const { isGroup, participants } = chat;
   let onlineStatus: string = "";
   let onlineStatusColor: string | undefined = undefined;
 

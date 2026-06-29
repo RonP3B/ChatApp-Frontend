@@ -1,9 +1,7 @@
-import { useChatContext } from "@/shared/contexts";
 import { Theme, alpha, useMediaQuery } from "@mui/material";
 
-export const useChatStyles = () => {
+export const useChatStyles = (hasSelectedChat: boolean) => {
   const isScreenBelow900px = useMediaQuery("(max-width:899px)");
-  const { chatContextValues } = useChatContext();
 
   return {
     mainContainer: {
@@ -15,7 +13,7 @@ export const useChatStyles = () => {
       borderRight: isScreenBelow900px ? "none" : "1px solid",
       borderRightColor: (theme: Theme) => theme.palette.divider,
       display:
-        isScreenBelow900px && chatContextValues.selectedChat ? "none" : "block",
+        isScreenBelow900px && hasSelectedChat ? "none" : "block",
       maxHeight: "100%",
       overflow: "hidden",
     },
@@ -24,7 +22,7 @@ export const useChatStyles = () => {
       backgroundColor: (theme: Theme) =>
         alpha(theme.palette.primary.light, 0.1),
       display:
-        isScreenBelow900px && !chatContextValues.selectedChat ? "none" : "flex",
+        isScreenBelow900px && !hasSelectedChat ? "none" : "flex",
       flexDirection: "column",
     },
   };

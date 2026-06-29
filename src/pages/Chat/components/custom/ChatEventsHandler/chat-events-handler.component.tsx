@@ -1,12 +1,12 @@
-import { useSocketContext } from "@/shared/contexts";
 import { SocketEvent } from "@/shared/enums";
 import { useEffect } from "react";
 import { useChatEvents } from "./hooks/chat-events.hook";
+import { useSocket } from "@/shared/contexts/SocketContext";
 
 export const ChatEventsHandler: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { socket } = useSocketContext();
+  const { socket } = useSocket();
   const events = useChatEvents();
 
   useEffect(() => {

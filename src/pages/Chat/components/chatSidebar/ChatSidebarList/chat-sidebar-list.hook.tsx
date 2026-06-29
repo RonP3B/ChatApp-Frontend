@@ -1,5 +1,5 @@
 import { getRooms } from "@/pages/Chat/services";
-import { useChatContext } from "@/shared/contexts";
+import { useChatActions, useChatRooms } from "@/shared/contexts/ChatContext";
 import { useOpenDialog, useToast } from "@/shared/hooks";
 import { Room } from "@/shared/interfaces";
 import { getAxiosErrorMsg } from "@/shared/utils";
@@ -8,7 +8,8 @@ import { useState, useEffect } from "react";
 
 export const useChatSidebarList = (filterChat: string) => {
   const { openDialog, closeDialog, dialogOpened } = useOpenDialog();
-  const { chatContextValues, chatContextActions } = useChatContext();
+  const rooms = useChatRooms();
+  const chatActions = useChatActions();
   const toast = useToast();
   const [loading, setLoading] = useState<boolean>(true);
   const [displayNoChats, setDisplayNoChats] = useState<boolean>(false);
@@ -18,7 +19,7 @@ export const useChatSidebarList = (filterChat: string) => {
       try {
         const res: AxiosResponse = await getRooms();
         const data: Room[] = res.data;
-        chatContextActions.setRooms(data);
+        chatActions.setRooms(data);
       } catch (error) {
         const errorMsg: string = getAxiosErrorMsg(error, "get chats");
         toast(errorMsg, { type: "error" });
@@ -32,18 +33,17 @@ export const useChatSidebarList = (filterChat: string) => {
   }, []);
 
   useEffect(() => {
-    setDisplayNoChats(!loading && chatContextValues.rooms.length === 0);
-  }, [loading, chatContextValues.rooms]);
+    setDisplayNoChats(!loading && rooms.length === 0);
+  }, [loading, rooms]);
 
-  const filteredRooms: Room[] = chatContextValues.rooms.filter((room) =>
+  const filteredRooms: Room[] = rooms.filter((room) =>
     room.name.toLowerCase().includes(filterChat.toLowerCase())
   );
 
-  const displayChats: boolean =
-    chatContextValues.rooms.length > 0 && filteredRooms.length > 0;
+  const displayChats: boolean = rooms.length > 0 && filteredRooms.length > 0;
 
   const displayNotFound: boolean =
-    chatContextValues.rooms.length > 0 && filteredRooms.length === 0;
+    rooms.length > 0 && filteredRooms.length === 0;
 
   return {
     chatSidebarListValues: {

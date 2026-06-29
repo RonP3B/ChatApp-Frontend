@@ -2,10 +2,10 @@ import * as Yup from "yup";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { User } from "@/shared/interfaces";
 import { getUsers } from "@/pages/Chat/services";
-import { useAuthContext } from "@/shared/contexts";
 import { getAxiosErrorMsg } from "@/shared/utils";
 import { AxiosResponse } from "axios";
 import { FormikProps } from "formik";
+import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import {
   ChangeEvent,
   Dispatch,
@@ -20,7 +20,7 @@ export const useMembersForm = (
   setGroupMembers: Dispatch<SetStateAction<User[]>>,
   groupMembers: User[]
 ) => {
-  const { auth } = useAuthContext();
+  const currentUser = useCurrentUser();
   const toast = useToast();
   const toastRef = useRef(toast);
   const [usernameFilter, setUsernameFilter] = useState<string>("");
@@ -28,7 +28,7 @@ export const useMembersForm = (
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
-  const loggedUserId: string = auth.user!.id;
+  const loggedUserId: string = currentUser.user.id;
   const initialValues: { members: User[] } = { members: groupMembers };
 
   const validationSchema = Yup.object({

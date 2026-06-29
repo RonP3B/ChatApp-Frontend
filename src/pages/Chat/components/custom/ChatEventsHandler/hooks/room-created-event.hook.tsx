@@ -1,10 +1,9 @@
-import { useChatContext } from "@/shared/contexts";
+import { useChatActions } from "@/shared/contexts/ChatContext";
 import { Room } from "@/shared/interfaces";
 import { useCallback } from "react";
 
 export const useRoomCreatedEvent = () => {
-  const { chatContextActions } = useChatContext();
-  const { setRooms } = chatContextActions;
+  const { setRooms } = useChatActions();
 
   const onRoomCreated = useCallback(
     (room: Room): void => {

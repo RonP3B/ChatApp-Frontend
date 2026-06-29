@@ -1,29 +1,32 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ChatHeaderStyles } from "./chat-header.styles";
-import { useChatContext } from "@/shared/contexts";
+import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import { useChatHeader } from "./chat-header.hook";
 import { Box, Toolbar, IconButton, Avatar, Typography } from "@mui/material";
 
 export const ChatHeader: React.FC = () => {
-  const { chatHeaderValues } = useChatHeader();
-  const { chatContextValues, chatContextActions } = useChatContext();
+  const selectedChat = useSelectedChat();
+  const { chatHeaderValues } = useChatHeader(selectedChat);
+  const chatActions = useChatActions();
+
+  if (!selectedChat) return null;
 
   return (
     <Box sx={ChatHeaderStyles.container}>
       <Toolbar>
         {chatHeaderValues.isScreenBelow900px && (
-          <IconButton onClick={chatContextActions.handleArrowBack}>
+          <IconButton onClick={chatActions.handleArrowBack}>
             <ArrowBackIcon />
           </IconButton>
         )}
         <Avatar
-          alt={chatContextValues.selectedChat!.name}
-          src={chatContextValues.selectedChat!.image}
+          alt={selectedChat.name}
+          src={selectedChat.image}
           sx={ChatHeaderStyles.avatar}
         />
         <Box sx={ChatHeaderStyles.userInfoContainer}>
           <Typography variant="h6" sx={ChatHeaderStyles.lineHeight}>
-            {chatContextValues.selectedChat!.name}
+            {selectedChat.name}
           </Typography>
           <Typography
             variant="caption"
