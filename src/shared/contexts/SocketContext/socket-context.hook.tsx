@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { SocketContext } from "./socket.context";
-import { SocketContextProps } from "./socket.context.interface";
+import { SocketContext } from "./socket-context";
+import { SocketContextValue } from "./socket-context.interface";
 
-export const useSocketContext = (): SocketContextProps => {
+export const useSocketContext = (): SocketContextValue => {
   const socketContext = useContext(SocketContext);
 
   if (!socketContext) {

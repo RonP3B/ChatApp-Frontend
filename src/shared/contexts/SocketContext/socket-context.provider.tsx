@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import socketio, { Socket } from "socket.io-client";
-import { SocketContext } from "./socket.context";
+import { SocketContext } from "./socket-context";
 import { SocketEvent } from "@/shared/enums";
 import { AxiosResponse } from "axios";
 import { getAccessToken, validateRefreshToken } from "@/shared/services";
-import { useAuth } from "../AuthContext";
+import { useCurrentUser } from "../AuthContext";
 
 export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const auth = useAuth();
+  const currentUser = useCurrentUser();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [reconnectionAttempts, setReconnectionAttempts] = useState<number>(0);
 
-  useEffect(() => connectSocket(auth.token), [auth.token]);
+  useEffect(() => connectSocket(currentUser.token), [currentUser.token]);
 
   useEffect(() => {
     if (!socket) return;
