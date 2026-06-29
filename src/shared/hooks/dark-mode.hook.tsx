@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useColorModeContext } from "../contexts/ColorModeContext";
+import { useColorMode } from "../contexts/ColorModeContext";
 
 export const useDarkMode = () => {
-  const { setMode, mode } = useColorModeContext();
+  const { setMode, mode } = useColorMode();
   const [isDarkModeActive, setIsDarkModeActive] = useState<boolean>(
     mode === "dark"
   );

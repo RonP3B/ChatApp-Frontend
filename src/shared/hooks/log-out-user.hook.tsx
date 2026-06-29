@@ -4,11 +4,11 @@ import { logOut } from "../services";
 import { getAxiosErrorMsg } from "../utils";
 import { useToast } from "./toast.hook";
 import { useAuthActions, initialAuthState } from "../contexts/AuthContext";
-import { useSocketContext } from "../contexts/SocketContext";
+import { useSocket } from "../contexts/SocketContext";
 
 export const useLogOutUser = () => {
   const { setAuth } = useAuthActions();
-  const { disconnectSocket } = useSocketContext();
+  const { disconnectSocket } = useSocket();
   const navigate = useNavigate();
   const confirm = useConfirm();
   const toast = useToast();

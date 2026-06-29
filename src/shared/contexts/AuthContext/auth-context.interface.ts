@@ -1,5 +1,5 @@
 import { User } from "@/shared/interfaces";
-import { AuthStatusValues, AuthState } from ".";
+import { AuthStatusValues, AuthState } from "./auth-context.type";
 
 export interface AuthenticatedUser {
   status: Extract<AuthStatusValues, "authenticated">;

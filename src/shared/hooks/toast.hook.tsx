@@ -1,8 +1,8 @@
 import { toast, ToastOptions } from "react-toastify";
-import { useColorModeContext } from "../contexts/ColorModeContext";
+import { useColorMode } from "../contexts/ColorModeContext";
 
 export const useToast = () => {
-  const { mode } = useColorModeContext();
+  const { mode } = useColorMode();
 
   const showToast = (message: string, options: ToastOptions = {}) => {
     const toastOptions: ToastOptions = {
