@@ -1,5 +1,5 @@
-import { useColorModeContext } from "@/shared/contexts";
 import { useState } from "react";
+import { useColorModeContext } from "../contexts/ColorModeContext";
 
 export const useDarkMode = () => {
   const { setMode, mode } = useColorModeContext();

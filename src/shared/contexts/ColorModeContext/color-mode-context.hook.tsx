@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { ColorModeContextProps } from "./color-mode.context.interface";
-import { ColorModeContext } from "./color-mode.context";
+import { ColorModeContextValue } from "./color-mode-context.interface";
+import { ColorModeContext } from "./color-mode-context";
 
-export const useColorModeContext = (): ColorModeContextProps => {
+export const useColorModeContext = (): ColorModeContextValue => {
   const colorMode = useContext(ColorModeContext);
 
   if (!colorMode) {
