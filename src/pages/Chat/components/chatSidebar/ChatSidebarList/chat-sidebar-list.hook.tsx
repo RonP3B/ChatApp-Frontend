@@ -4,33 +4,37 @@ import { useOpenDialog, useToast } from "@/shared/hooks";
 import { Room } from "@/shared/interfaces";
 import { getAxiosErrorMsg } from "@/shared/utils";
 import { AxiosResponse } from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const useChatSidebarList = (filterChat: string) => {
   const { openDialog, closeDialog, dialogOpened } = useOpenDialog();
   const rooms = useChatRooms();
-  const chatActions = useChatActions();
+  const { setRooms } = useChatActions();
   const toast = useToast();
+  const toastRef = useRef(toast);
   const [loading, setLoading] = useState<boolean>(true);
   const [displayNoChats, setDisplayNoChats] = useState<boolean>(false);
+
+  useEffect(() => {
+    toastRef.current = toast;
+  }, [toast]);
 
   useEffect(() => {
     const fetchRooms = async (): Promise<void> => {
       try {
         const res: AxiosResponse = await getRooms();
         const data: Room[] = res.data;
-        chatActions.setRooms(data);
+        setRooms(data);
       } catch (error) {
         const errorMsg: string = getAxiosErrorMsg(error, "get chats");
-        toast(errorMsg, { type: "error" });
+        toastRef.current(errorMsg, { type: "error" });
       } finally {
         setLoading(false);
       }
     };
 
     fetchRooms();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setRooms]);
 
   useEffect(() => {
     setDisplayNoChats(!loading && rooms.length === 0);
