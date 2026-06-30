@@ -22,6 +22,10 @@ export const useNewChat = (handleClose: () => void) => {
   const loggedUserId: string = currentUser.user.id;
 
   useEffect(() => {
+    toastRef.current = toast;
+  }, [toast]);
+
+  useEffect(() => {
     const fetchUsers = async (): Promise<void> => {
       try {
         setLoading(true);

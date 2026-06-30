@@ -38,6 +38,10 @@ export const useMembersForm = (
   });
 
   useEffect(() => {
+    toastRef.current = toast;
+  }, [toast]);
+
+  useEffect(() => {
     const fetchUsers = async (): Promise<void> => {
       try {
         setLoading(true);
