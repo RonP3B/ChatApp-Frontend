@@ -20,6 +20,7 @@ export const ChatHeader: React.FC = () => {
           </IconButton>
         )}
         <Avatar
+          key={selectedChat.id}
           alt={selectedChat.name}
           src={selectedChat.image}
           sx={ChatHeaderStyles.avatar}
