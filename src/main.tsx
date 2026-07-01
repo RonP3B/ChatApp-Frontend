@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "@mui/material";
 import { mainTheme } from "./shared/styles/index.ts";
-import { ChatAppApiInterceptor } from "./shared/components/index.ts";
+import { ChatAppApiInterceptor } from "./shared/APIs/ChatAppAPI/index.ts";
 import { AuthContextProvider } from "./shared/contexts/AuthContext/index.ts";
 import { ToastContainer } from "react-toastify";
 import CssBaseline from "@mui/material/CssBaseline";
