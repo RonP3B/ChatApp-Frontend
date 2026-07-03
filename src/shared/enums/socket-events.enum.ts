@@ -4,4 +4,5 @@ export enum SocketEvent {
   ROOM_CREATED = "room_created",
   USER_ONLINE_STATUS = "user_online_status",
   CONNECT_ERROR = "connect_error",
+  CONNECT = "connect",
 }

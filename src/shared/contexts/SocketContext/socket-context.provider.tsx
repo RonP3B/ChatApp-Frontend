@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import socketio, { Socket } from "socket.io-client";
 import { SocketContext } from "./socket-context";
 import { SocketEvent } from "@/shared/enums";
@@ -6,26 +6,46 @@ import { AxiosResponse } from "axios";
 import { getAccessToken, validateRefreshToken } from "@/shared/services";
 import { useCurrentUser } from "../AuthContext";
 
+const MAX_RECONNECTION_ATTEMPTS = 5;
+
 export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const currentUser = useCurrentUser();
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [reconnectionAttempts, setReconnectionAttempts] = useState<number>(0);
-
-  useEffect(() => connectSocket(currentUser.token), [currentUser.token]);
+  const reconnectionAttemptsRef = useRef<number>(0);
 
   useEffect(() => {
-    if (!socket) return;
+    const newSocket = socketio(import.meta.env.VITE_CHATAPP_SOCKET, {
+      withCredentials: true,
+      auth: { token: currentUser.token },
+    });
+
+    setSocket(newSocket);
+
+    const onConnect = () => {
+      reconnectionAttemptsRef.current = 0;
+    };
 
     const onConnectError = async (error: Error) => {
       try {
         if (error.message === "Missing or invalid token") {
+          if (reconnectionAttemptsRef.current >= MAX_RECONNECTION_ATTEMPTS) {
+            return;
+          }
+
           let res: AxiosResponse = await validateRefreshToken();
-          if (!res.data.isValidRefreshToken || reconnectionAttempts > 4) return;
+
+          if (!res.data.isValidRefreshToken) return;
+
           res = await getAccessToken();
-          connectSocket(res.data.accessToken as string);
-          setReconnectionAttempts((prev) => prev + 1);
+          const newToken = res.data.accessToken as string;
+
+          if (!newSocket.connected) {
+            newSocket.auth = { token: newToken };
+            newSocket.connect();
+            reconnectionAttemptsRef.current += 1;
+          }
         } else {
           console.error("Socket connection error:", error);
         }
@@ -34,21 +54,16 @@ export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     };
 
-    socket.on(SocketEvent.CONNECT_ERROR, onConnectError);
+    newSocket.on(SocketEvent.CONNECT, onConnect);
+    newSocket.on(SocketEvent.CONNECT_ERROR, onConnectError);
 
     return () => {
-      socket.off(SocketEvent.CONNECT_ERROR, onConnectError);
+      newSocket.off(SocketEvent.CONNECT, onConnect);
+      newSocket.off(SocketEvent.CONNECT_ERROR, onConnectError);
+      newSocket.disconnect();
+      setSocket(null);
     };
-  }, [socket, reconnectionAttempts]);
-
-  const connectSocket = (token: string): void => {
-    setSocket(
-      socketio(import.meta.env.VITE_CHATAPP_SOCKET, {
-        withCredentials: true,
-        auth: { token },
-      })
-    );
-  };
+  }, [currentUser.token]);
 
   const disconnectSocket = (): void => {
     if (socket) {

@@ -20,22 +20,29 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
   const userId: string = auth.user.id;
 
   useEffect(() => {
-    const handleBeforeUnload = async (): Promise<void> => {
-      try {
-        if (!selectedChat) return;
-        await updateUserLastCheckedTime({
-          roomId: selectedChat.id,
-          userId,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+    const sentRef = { current: false };
+
+    const sendLastChecked = (): void => {
+      if (sentRef.current || !selectedChat) return;
+
+      sentRef.current = true;
+
+      updateUserLastCheckedTime({
+        roomId: selectedChat.id,
+        userId,
+      }).catch(console.error);
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    const handleVisibilityChange = (): void => {
+      if (document.visibilityState === "hidden") sendLastChecked();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pagehide", sendLastChecked);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", sendLastChecked);
     };
   }, [selectedChat, userId]);
 
