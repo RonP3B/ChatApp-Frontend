@@ -14,19 +14,23 @@ export const useLogOutUser = () => {
   const toast = useToast();
 
   const logOutUser = async (): Promise<void> => {
+    const confirmOptions: ConfirmOptions = {
+      title: "Confirmation",
+      description: "Are you sure you want to log out?",
+      cancellationText: "Cancel",
+    };
+
+    const { confirmed } = await confirm(confirmOptions);
+
+    if (!confirmed) return;
+
     try {
-      const confirmOptions: ConfirmOptions = {
-        title: "Confirmation",
-        description: "Are you sure you want to log out?",
-        cancellationText: "Cancel",
-      };
-      await confirm(confirmOptions);
       await logOut();
       setAuth(initialAuthState);
       disconnectSocket();
       navigate("/sign-in");
     } catch (error) {
-      const errorMsg: string = getAxiosErrorMsg(error, "log out");
+      const errorMsg = getAxiosErrorMsg(error, "log out");
       toast(errorMsg, { type: "error" });
     }
   };
