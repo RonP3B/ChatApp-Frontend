@@ -47,8 +47,9 @@ export const useMembersForm = (
         setLoading(true);
         const res: AxiosResponse = await getUsers(debouncedUsernameFilter);
         const data: User[] = res.data;
-        setUsers(data.filter((user) => user.id !== loggedUserId));
-        setDisplayNotFound(data.length === 0);
+        const filteredUsers = data.filter((user) => user.id !== loggedUserId);
+        setUsers(filteredUsers);
+        setDisplayNotFound(filteredUsers.length === 0);
       } catch (error) {
         const errorMsg: string = getAxiosErrorMsg(error, "get users");
         toastRef.current(errorMsg, { type: "error" });
