@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SignInValues } from "./interfaces";
 import { AxiosResponse } from "axios";
 import { signIn } from "./sign-in.service";
-import { decodeJWT, getAxiosErrorMsg } from "@/shared/utils";
+import { decodeJWT, buildGenericErrorMessage } from "@/shared/utils";
 import { User } from "@/shared/interfaces";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -34,8 +34,10 @@ export const useSignIn = () => {
       });
       navigate("/");
     } catch (error) {
-      const errorMsg: string = getAxiosErrorMsg(error, "sign in");
-      toast(errorMsg, { type: "error", containerId: "A" });
+      toast(buildGenericErrorMessage("sign in"), {
+        type: "error",
+        containerId: "A",
+      });
     } finally {
       setLoading(false);
     }

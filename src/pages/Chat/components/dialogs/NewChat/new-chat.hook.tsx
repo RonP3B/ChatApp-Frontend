@@ -3,7 +3,7 @@ import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { useChatActions } from "@/shared/contexts/ChatContext";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { Room, User } from "@/shared/interfaces";
-import { getAxiosErrorMsg } from "@/shared/utils";
+import { buildGenericErrorMessage } from "@/shared/utils";
 import { AxiosResponse } from "axios";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
@@ -35,8 +35,9 @@ export const useNewChat = (handleClose: () => void) => {
         setUsers(filteredUsers);
         setDisplayNotFound(filteredUsers.length === 0);
       } catch (error) {
-        const errorMsg: string = getAxiosErrorMsg(error, "get users");
-        toastRef.current(errorMsg, { type: "error" });
+        toastRef.current(buildGenericErrorMessage("get users"), {
+          type: "error",
+        });
       } finally {
         setLoading(false);
       }
@@ -71,8 +72,9 @@ export const useNewChat = (handleClose: () => void) => {
       chatActions.setSelectedChat(newChatRoom);
       handleClose();
     } catch (error) {
-      const errorMsg: string = getAxiosErrorMsg(error, "create the chat room");
-      toast(errorMsg, { type: "error" });
+      toast(buildGenericErrorMessage("create the chat room"), {
+        type: "error",
+      });
     } finally {
       setLoadingSubmit(false);
     }
