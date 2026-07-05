@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { resetPassword } from "../../services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { getAxiosErrorMsg } from "@/shared/utils";
+import { buildGenericErrorMessage } from "@/shared/utils";
 
 export const useNewPasswordForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
@@ -55,8 +55,10 @@ export const useNewPasswordForm = (
         containerId: "A",
       });
     } catch (error) {
-      const errorMsg: string = getAxiosErrorMsg(error, "change the password");
-      toast(errorMsg, { type: "error", containerId: "A" });
+      toast(buildGenericErrorMessage("change the password"), {
+        type: "error",
+        containerId: "A",
+      });
     } finally {
       setLoading(false);
     }

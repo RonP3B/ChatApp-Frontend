@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { User } from "@/shared/interfaces";
 import { getUsers } from "@/pages/Chat/services";
-import { getAxiosErrorMsg } from "@/shared/utils";
+import { buildGenericErrorMessage } from "@/shared/utils";
 import { AxiosResponse } from "axios";
 import { FormikProps } from "formik";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
@@ -47,11 +47,13 @@ export const useMembersForm = (
         setLoading(true);
         const res: AxiosResponse = await getUsers(debouncedUsernameFilter);
         const data: User[] = res.data;
-        setUsers(data.filter((user) => user.id !== loggedUserId));
-        setDisplayNotFound(data.length === 0);
+        const filteredUsers = data.filter((user) => user.id !== loggedUserId);
+        setUsers(filteredUsers);
+        setDisplayNotFound(filteredUsers.length === 0);
       } catch (error) {
-        const errorMsg: string = getAxiosErrorMsg(error, "get users");
-        toastRef.current(errorMsg, { type: "error" });
+        toastRef.current(buildGenericErrorMessage("get users"), {
+          type: "error",
+        });
       } finally {
         setLoading(false);
       }

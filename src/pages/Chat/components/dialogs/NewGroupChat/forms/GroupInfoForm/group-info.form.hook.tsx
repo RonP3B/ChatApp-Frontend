@@ -4,9 +4,9 @@ import { Room, User } from "@/shared/interfaces";
 import { AxiosResponse } from "axios";
 import { createGroupRoom } from "@/pages/Chat/services";
 import { CreateGroupRoomValues } from "@/pages/Chat/interfaces";
-import { getAxiosErrorMsg } from "@/shared/utils";
 import { useToast } from "@/shared/hooks";
 import { useChatActions } from "@/shared/contexts/ChatContext";
+import { buildGenericErrorMessage } from "@/shared/utils";
 
 export const useGroupInfoForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
@@ -48,8 +48,9 @@ export const useGroupInfoForm = (
       handleClose();
       setActiveStep(0);
     } catch (error) {
-      const errorMsg: string = getAxiosErrorMsg(error, "create the group");
-      toast(errorMsg, { type: "error" });
+      toast(buildGenericErrorMessage("create the group"), {
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
