@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import socketio, { Socket } from "socket.io-client";
 import { SocketContext } from "./socket-context";
 import { SocketEvent } from "@/shared/enums";
-import { AxiosResponse } from "axios";
-import { getAccessToken, validateRefreshToken } from "@/shared/services";
 import { useCurrentUser } from "../AuthContext";
+import { useRefreshToken } from "@/shared/hooks";
 
 const MAX_RECONNECTION_ATTEMPTS = 5;
 
@@ -12,8 +11,12 @@ export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const currentUser = useCurrentUser();
+  const { refreshAccessToken } = useRefreshToken();
   const [socket, setSocket] = useState<Socket | null>(null);
   const reconnectionAttemptsRef = useRef<number>(0);
+  const refreshAccessTokenRef = useRef(refreshAccessToken);
+
+  refreshAccessTokenRef.current = refreshAccessToken;
 
   useEffect(() => {
     const newSocket = socketio(import.meta.env.VITE_CHATAPP_SOCKET, {
@@ -34,12 +37,9 @@ export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
             return;
           }
 
-          let res: AxiosResponse = await validateRefreshToken();
+          const newToken = await refreshAccessTokenRef.current();
 
-          if (!res.data.isValidRefreshToken) return;
-
-          res = await getAccessToken();
-          const newToken = res.data.accessToken as string;
+          if (!newToken) return;
 
           if (!newSocket.connected) {
             newSocket.auth = { token: newToken };
