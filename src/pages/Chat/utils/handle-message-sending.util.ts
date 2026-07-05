@@ -27,10 +27,13 @@ export const handleMessageSendingFailure = (
 const markMessageWithError = (
   prev: Room | null,
   messageToDisplayId: string
-): Room => ({
-  ...prev!,
-  messages: prev!.messages.map((message) => {
-    if (message.id !== messageToDisplayId) return message;
-    return { ...message, error: true };
-  }),
-});
+): Room | null => {
+  if (!prev) return prev;
+  return {
+    ...prev,
+    messages: prev.messages.map((message) => {
+      if (message.id !== messageToDisplayId) return message;
+      return { ...message, error: true };
+    }),
+  };
+};
