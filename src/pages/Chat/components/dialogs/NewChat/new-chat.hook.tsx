@@ -4,7 +4,7 @@ import { useChatActions } from "@/shared/contexts/ChatContext";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { Room, User } from "@/shared/interfaces";
 import { buildGenericErrorMessage } from "@/shared/utils";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 export const useNewChat = (handleClose: () => void) => {
@@ -26,15 +26,21 @@ export const useNewChat = (handleClose: () => void) => {
   }, [toast]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchUsers = async (): Promise<void> => {
       try {
         setLoading(true);
-        const res: AxiosResponse = await getUsers(debouncedUsernameFilter);
+        const res: AxiosResponse = await getUsers(
+          debouncedUsernameFilter,
+          controller.signal
+        );
         const data: User[] = res.data;
         const filteredUsers = data.filter((user) => user.id !== loggedUserId);
         setUsers(filteredUsers);
         setDisplayNotFound(filteredUsers.length === 0);
       } catch (error) {
+        if (axios.isCancel(error)) return;
         toastRef.current(buildGenericErrorMessage("get users"), {
           type: "error",
         });
@@ -50,7 +56,7 @@ export const useNewChat = (handleClose: () => void) => {
       setDisplayNotFound(false);
     }
 
-    setSelectedUser(undefined);
+    return () => controller.abort();
   }, [debouncedUsernameFilter, loggedUserId]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
