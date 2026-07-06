@@ -31,10 +31,14 @@ export const createMessageToDisplay = async (
   file?: File
 ): Promise<Message> => {
   const messageToDisplay: Message = {
-    ...(messageToSend as Message),
     id: messageToDisplayId,
     date: new Date(),
     sender,
+    senderId: messageToSend.senderId,
+    roomId: messageToSend.roomId,
+    messageType: messageToSend.messageType,
+    content: messageToSend.content ?? "",
+    error: false,
   };
 
   if (file) {
