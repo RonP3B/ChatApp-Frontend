@@ -2,7 +2,6 @@ import SpeakerNotesOffIcon from "@mui/icons-material/SpeakerNotesOff";
 import { ScrollBar, NoChats, NewChat } from "../..";
 import { ChatSidebarListStyles } from "./chat-sidebar-list.styles";
 import { Box, List } from "@mui/material";
-import { nanoid } from "nanoid";
 import { ChatSidebarListProps } from "./chat-sidebar-list.interface";
 import { ChatListItem } from "../ChatSidebarListItem/chat-list-item.component";
 
@@ -15,8 +14,8 @@ export const ChatSidebarList: React.FC<ChatSidebarListProps> = ({
       {chatSidebarListValues.loading &&
         new Array(40)
           .fill(0)
-          .map(() => (
-            <ChatListItem key={nanoid()} isLoading={true} room={undefined} />
+          .map((_, index) => (
+            <ChatListItem key={index} isLoading={true} room={undefined} />
           ))}
       <ScrollBar>
         <List>
