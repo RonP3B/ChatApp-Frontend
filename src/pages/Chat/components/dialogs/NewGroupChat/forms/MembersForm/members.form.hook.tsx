@@ -3,7 +3,7 @@ import { useDebaounce, useToast } from "@/shared/hooks";
 import { User } from "@/shared/interfaces";
 import { getUsers } from "@/pages/Chat/services";
 import { buildGenericErrorMessage } from "@/shared/utils";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { FormikProps } from "formik";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import {
@@ -42,15 +42,21 @@ export const useMembersForm = (
   }, [toast]);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchUsers = async (): Promise<void> => {
       try {
         setLoading(true);
-        const res: AxiosResponse = await getUsers(debouncedUsernameFilter);
+        const res: AxiosResponse = await getUsers(
+          debouncedUsernameFilter,
+          controller.signal
+        );
         const data: User[] = res.data;
         const filteredUsers = data.filter((user) => user.id !== loggedUserId);
         setUsers(filteredUsers);
         setDisplayNotFound(filteredUsers.length === 0);
       } catch (error) {
+        if (axios.isCancel(error)) return;
         toastRef.current(buildGenericErrorMessage("get users"), {
           type: "error",
         });
@@ -65,6 +71,8 @@ export const useMembersForm = (
       setUsers([]);
       setDisplayNotFound(false);
     }
+
+    return () => controller.abort();
   }, [debouncedUsernameFilter, loggedUserId]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
