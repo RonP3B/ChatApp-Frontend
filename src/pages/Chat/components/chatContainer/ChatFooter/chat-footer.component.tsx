@@ -2,7 +2,6 @@ import { Fragment } from "react";
 import { useChatFooter } from "./chat-footer.hook";
 import SendIcon from "@mui/icons-material/Send";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { nanoid } from "nanoid";
 import { ChatFooterStyles } from "./chat-footer.styles";
 import { HiddenInputFile } from "../HiddenInputFile/hidden-input-file.component";
 import {
@@ -59,7 +58,7 @@ export const ChatFooter: React.FC = () => {
               >
                 {chatFooterValues.menuItems.map((item) => (
                   <MenuItem
-                    key={nanoid()}
+                    key={item.text}
                     onClick={() =>
                       chatFooterActions.handleFileInputClick(item.text)
                     }
