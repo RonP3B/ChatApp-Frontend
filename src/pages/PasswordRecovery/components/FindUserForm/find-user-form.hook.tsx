@@ -3,7 +3,7 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { findUser } from "../../services";
 import { toast } from "react-toastify";
-import { buildGenericErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage } from "@/shared/utils";
 
 export const useFindUserForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
@@ -34,7 +34,7 @@ export const useFindUserForm = (
         containerId: "A",
       });
     } catch (error) {
-      toast(buildGenericErrorMessage("find the user"), {
+      toast(getAxiosErrorMessage(error), {
         type: "error",
         containerId: "A",
       });

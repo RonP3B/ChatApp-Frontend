@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { verifyCode } from "../../services";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { buildGenericErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage } from "@/shared/utils";
 
 export const useValidateCodeForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
@@ -22,7 +22,7 @@ export const useValidateCodeForm = (
       await verifyCode(values, username);
       setActiveStep(2);
     } catch (error) {
-      toast(buildGenericErrorMessage("validate the code"), {
+      toast(getAxiosErrorMessage(error), {
         type: "error",
         containerId: "A",
       });
