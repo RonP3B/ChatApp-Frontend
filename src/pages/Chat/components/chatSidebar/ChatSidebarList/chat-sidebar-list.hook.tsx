@@ -2,7 +2,7 @@ import { getRooms } from "@/pages/Chat/services";
 import { useChatActions, useChatRooms } from "@/shared/contexts/ChatContext";
 import { useOpenDialog, useToast } from "@/shared/hooks";
 import { Room } from "@/shared/interfaces";
-import { buildGenericErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage } from "@/shared/utils";
 import { AxiosResponse } from "axios";
 import { useState, useEffect, useRef } from "react";
 
@@ -26,9 +26,7 @@ export const useChatSidebarList = (filterChat: string) => {
         const data: Room[] = res.data;
         setRooms(data);
       } catch (error) {
-        toastRef.current(buildGenericErrorMessage("get chats"), {
-          type: "error",
-        });
+        toastRef.current(getAxiosErrorMessage(error), { type: "error" });
       } finally {
         setLoading(false);
       }

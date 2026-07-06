@@ -1,7 +1,7 @@
 import { useConfirm, ConfirmOptions } from "material-ui-confirm";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services";
-import { buildGenericErrorMessage } from "../utils";
+import { getAxiosErrorMessage } from "../utils";
 import { useToast } from "./toast.hook";
 import { useAuthActions, initialAuthState } from "../contexts/AuthContext";
 import { useSocket } from "../contexts/SocketContext";
@@ -30,7 +30,7 @@ export const useLogOutUser = () => {
       disconnectSocket();
       navigate("/sign-in");
     } catch (error) {
-      toast(buildGenericErrorMessage("log out"), {
+      toast(getAxiosErrorMessage(error), {
         type: "error",
         containerId: "A",
       });

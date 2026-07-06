@@ -4,7 +4,7 @@ import { SignUpValues } from "./interfaces";
 import { signUp } from "./sign-up.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { buildGenericErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage } from "@/shared/utils";
 
 export const useSignUp = () => {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ export const useSignUp = () => {
         containerId: "A",
       });
     } catch (error) {
-      toast(buildGenericErrorMessage("sign up"), {
+      toast(getAxiosErrorMessage(error), {
         type: "error",
         containerId: "A",
       });

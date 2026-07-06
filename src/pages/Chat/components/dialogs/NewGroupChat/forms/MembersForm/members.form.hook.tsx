@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { useDebaounce, useToast } from "@/shared/hooks";
 import { User } from "@/shared/interfaces";
 import { getUsers } from "@/pages/Chat/services";
-import { buildGenericErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage } from "@/shared/utils";
 import axios, { AxiosResponse } from "axios";
 import { FormikProps } from "formik";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
@@ -57,9 +57,7 @@ export const useMembersForm = (
         setDisplayNotFound(filteredUsers.length === 0);
       } catch (error) {
         if (axios.isCancel(error)) return;
-        toastRef.current(buildGenericErrorMessage("get users"), {
-          type: "error",
-        });
+        toastRef.current(getAxiosErrorMessage(error), { type: "error" });
       } finally {
         setLoading(false);
       }
