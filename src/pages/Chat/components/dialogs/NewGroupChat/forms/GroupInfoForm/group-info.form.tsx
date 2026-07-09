@@ -24,7 +24,7 @@ export const GroupInfoForm: React.FC<GroupInfoFormProps> = ({
     >
       {() => (
         <Form>
-          <Box padding={1}>
+          <Box sx={{ p: 1 }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <ImageInput
                 name="groupImage"

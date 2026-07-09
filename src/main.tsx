@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import App from "./App";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { ThemeProvider } from "@mui/material";
-import { mainTheme } from "./shared/styles/index.ts";
-import { ChatAppApiInterceptor } from "./shared/APIs/ChatAppAPI/index.ts";
-import { AuthContextProvider } from "./shared/contexts/AuthContext/index.ts";
+import { mainTheme } from "./shared/styles";
+import { ChatAppApiInterceptor } from "./shared/APIs/ChatAppAPI";
+import { AuthContextProvider } from "./shared/contexts/AuthContext";
 import { ToastContainer } from "react-toastify";
 import CssBaseline from "@mui/material/CssBaseline";
 import "react-toastify/dist/ReactToastify.css";

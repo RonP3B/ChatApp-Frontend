@@ -27,7 +27,12 @@ export const ChatListItem: React.FC<ChatListItemProps> = ({
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>
-            <Skeleton variant="circular" width={40} height={40} />
+            <Skeleton
+              variant="circular"
+              width={40}
+              height={40}
+              sx={{ mr: 2 }}
+            />
           </ListItemIcon>
           <ListItemText
             sx={ChatListItemStyles.listItemText}

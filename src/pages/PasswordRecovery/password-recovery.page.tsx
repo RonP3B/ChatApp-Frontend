@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import { authStyles } from "@/shared/styles";
 import { FindUserForm, NewPasswordForm, ValidateCodeForm } from "./components";
 import { AuthModal } from "@/shared/components";

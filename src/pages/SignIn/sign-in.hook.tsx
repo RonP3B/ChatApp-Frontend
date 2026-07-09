@@ -5,7 +5,7 @@ import { AxiosResponse } from "axios";
 import { signIn } from "./sign-in.service";
 import { decodeJWT, getAxiosErrorMessage } from "@/shared/utils";
 import { User } from "@/shared/interfaces";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { AuthStatus, useAuthActions } from "@/shared/contexts/AuthContext";
 

@@ -1,5 +1,5 @@
 import { ConfirmProvider } from "material-ui-confirm";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router";
 import { ToastContainer } from "react-toastify";
 import { AuthStatus, useAuth } from "@/shared/contexts/AuthContext";
 import {

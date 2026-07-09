@@ -8,7 +8,7 @@ export const AuthModal: React.FC<{ children: React.ReactNode }> = ({
   return (
     <Box sx={AuthModalStyles.container}>
       <Grid container sx={AuthModalStyles.gridContainer}>
-        <Grid item xs={12} md={4} sx={AuthModalStyles.logoGridItem}>
+        <Grid size={{ xs: 12, md: 4 }} sx={AuthModalStyles.logoGridItem}>
           <Box
             component="img"
             src={Logo}
@@ -30,7 +30,7 @@ export const AuthModal: React.FC<{ children: React.ReactNode }> = ({
             Conversations That Echo, Connections That Last
           </Typography>
         </Grid>
-        <Grid item xs={12} md={8} sx={AuthModalStyles.contentGridItem}>
+        <Grid size={{ xs: 12, md: 8 }} sx={AuthModalStyles.contentGridItem}>
           {children}
         </Grid>
       </Grid>

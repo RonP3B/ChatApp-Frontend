@@ -1,7 +1,7 @@
 import { useRefreshToken } from "@/shared/hooks";
 import { Box } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { CenteredLoading } from "../feedback";
 import { AuthStatus, useAuth } from "@/shared/contexts/AuthContext";
 

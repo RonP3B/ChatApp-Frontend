@@ -41,9 +41,7 @@ export const ChatSidebarHeader: React.FC<ChatSidebarHeaderProps> = ({
           anchorEl={chatSidebarHeaderValues.anchorEl}
           open={chatSidebarHeaderValues.open}
           onClose={chatSidebarHeaderActions.handleMenuClose}
-          MenuListProps={{
-            "aria-labelledby": "menu-button",
-          }}
+          slotProps={{ list: { "aria-labelledby": "menu-button" } }}
         >
           {chatSidebarHeaderValues.menuItems.map((item) => (
             <MenuItem key={nanoid()} onClick={item.onClick}>
@@ -65,23 +63,25 @@ export const ChatSidebarHeader: React.FC<ChatSidebarHeaderProps> = ({
         sx={ChatSidebarHeaderStyles.spacing}
         placeholder="Filter chat"
         fullWidth
-        InputProps={{
-          sx: ChatSidebarHeaderStyles.input,
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-          endAdornment: chatSidebarHeaderValues.filterChat && (
-            <InputAdornment position="end">
-              <IconButton
-                edge="end"
-                onClick={chatSidebarHeaderActions.clearChatFilter}
-              >
-                <CloseIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            sx: ChatSidebarHeaderStyles.input,
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+            endAdornment: chatSidebarHeaderValues.filterChat && (
+              <InputAdornment position="end">
+                <IconButton
+                  edge="end"
+                  onClick={chatSidebarHeaderActions.clearChatFilter}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
         }}
       />
       <NewChat

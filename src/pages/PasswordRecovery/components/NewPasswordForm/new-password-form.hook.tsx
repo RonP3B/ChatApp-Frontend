@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Dispatch, SetStateAction } from "react";
 import { resetPassword } from "../../services";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getAxiosErrorMessage } from "@/shared/utils";
 
 export const useNewPasswordForm = (

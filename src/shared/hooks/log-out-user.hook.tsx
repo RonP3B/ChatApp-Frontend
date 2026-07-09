@@ -1,5 +1,5 @@
 import { useConfirm, ConfirmOptions } from "material-ui-confirm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { logOut } from "../services";
 import { getAxiosErrorMessage } from "../utils";
 import { useToast } from "./toast.hook";

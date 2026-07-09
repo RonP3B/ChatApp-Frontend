@@ -20,4 +20,8 @@ export const newChatStyles = {
     overflow: "auto",
     mb: 0.5,
   },
+
+  avatar: {
+    marginRight: 2,
+  },
 };

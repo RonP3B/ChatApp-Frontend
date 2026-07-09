@@ -6,7 +6,7 @@ export const NoMessages: React.FC = () => {
   return (
     <Box sx={noMessagesStyles.noMessagesContainer}>
       <UnsubscribeTwoToneIcon sx={noMessagesStyles.noMessagesIcon} />
-      <Typography variant="h6" mt={-2.5}>
+      <Typography variant="h6" sx={{ mt: -2.5 }}>
         No messages here yet
       </Typography>
       <Typography variant="body2">

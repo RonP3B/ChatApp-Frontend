@@ -3,6 +3,7 @@ import { Theme } from "@mui/material/styles";
 export const ChatListItemStyles = {
   avatar: {
     border: (theme: Theme) => `1px solid ${theme.palette.primary.main}`,
+    marginRight: 2,
   },
 
   listItemText: {

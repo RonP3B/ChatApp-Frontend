@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useUserActivation } from "./user-activation.hook";
 import { CenteredLoading } from "@/shared/components";
 import { Button, Container, Paper, Typography } from "@mui/material";
 import { authStyles } from "@/shared/styles";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import { userActivationStyles } from "./user-activation.styles";
 
 export const UserActivation: React.FC = () => {
@@ -25,7 +25,7 @@ export const UserActivation: React.FC = () => {
           been successfully activated. You are now part of our vibrant
           community.
         </Typography>
-        <Typography variant="body1" mt={1.5} mb={0.5}>
+        <Typography variant="body1" sx={{ mt: 1.5, mb: 0.5 }}>
           Feel free to explore and connect with other members. If you have any
           questions or need assistance, our support team is here to help.
         </Typography>
