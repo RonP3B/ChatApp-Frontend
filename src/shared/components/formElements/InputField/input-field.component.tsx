@@ -29,7 +29,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       margin={margin}
       multiline={multiline}
       rows={multiline ? 4 : undefined}
-      InputProps={InputProps}
+      slotProps={{ input: InputProps }}
       disabled={disabled}
       autoComplete={autoComplete}
       fullWidth

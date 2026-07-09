@@ -1,12 +1,12 @@
 import { useState, ReactEventHandler } from "react";
-import { getMessageStyles } from "./message.styles";
+import { getDynamicMessageStyles } from "./message.styles";
 import { User } from "@/shared/interfaces";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
 
 export const useMessage = (user: User, error: boolean) => {
   const currentUser = useCurrentUser();
   const isLoggedUser: boolean = user.id === currentUser.user.id;
-  const MessageStyles = getMessageStyles(isLoggedUser, error);
+  const dynamicMessageStyles = getDynamicMessageStyles(isLoggedUser, error);
   const [mediaHeight, setMediaHeight] = useState<number | undefined>(270);
 
   const handleMediaLoad: ReactEventHandler = (): void => {
@@ -14,7 +14,7 @@ export const useMessage = (user: User, error: boolean) => {
   };
 
   return {
-    messageValues: { MessageStyles, mediaHeight, isLoggedUser },
+    messageValues: { dynamicMessageStyles, mediaHeight, isLoggedUser },
     messageActions: { handleMediaLoad },
   };
 };

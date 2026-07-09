@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getUserActivation } from "./user-activation.service";
 
 export const useUserActivation = (username: string) => {

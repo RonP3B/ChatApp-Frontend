@@ -33,11 +33,11 @@ export const ValidateCodeForm: React.FC<{
           </Form>
         )}
       </Formik>
-      <Box mt={1}>
+      <Box sx={{ mt: 1 }}>
         <Link
           href="#"
           underline="hover"
-          fontWeight={500}
+          sx={{ fontWeight: 500 }}
           onClick={() => setActiveStep(0)}
         >
           Didn&apos;t get the code?

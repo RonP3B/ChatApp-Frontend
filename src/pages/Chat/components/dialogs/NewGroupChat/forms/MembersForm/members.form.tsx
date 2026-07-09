@@ -42,7 +42,7 @@ export const MembersForm: React.FC<MembersFormProps> = ({
     >
       {(formik) => (
         <Form>
-          <Box padding={1}>
+          <Box sx={{ p: 1 }}>
             <TextField
               value={membersFormValues.usernameFilter}
               onChange={membersFormActions.handleInputChange}
@@ -60,18 +60,20 @@ export const MembersForm: React.FC<MembersFormProps> = ({
                 formik.getFieldMeta("members").touched &&
                 formik.getFieldMeta("members").error
               }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonSearchIcon />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonSearchIcon />
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
 
             {/* Selected users display */}
             {groupMembers.length > 0 && (
-              <Box my={1}>
+              <Box sx={{ my: 1 }}>
                 {groupMembers.map((user) => (
                   <Chip
                     key={user.id}
@@ -98,20 +100,21 @@ export const MembersForm: React.FC<MembersFormProps> = ({
               <ScrollBar>
                 <List>
                   {membersFormValues.users.map((user) => (
-                    <ListItem
-                      key={user.id}
-                      disablePadding
-                      selected={groupMembers.some(
-                        (currUser) => currUser.id === user.id
-                      )}
-                    >
+                    <ListItem key={user.id} disablePadding>
                       <ListItemButton
+                        selected={groupMembers.some(
+                          (currUser) => currUser.id === user.id
+                        )}
                         onClick={() =>
                           membersFormActions.handleUserAddition(user, formik)
                         }
                       >
                         <ListItemIcon>
-                          <Avatar src={user.avatar} alt={user.username} />
+                          <Avatar
+                            src={user.avatar}
+                            alt={user.username}
+                            sx={newGroupChatStyles.avatar}
+                          />
                         </ListItemIcon>
                         <ListItemText primary={user.username} />
                       </ListItemButton>

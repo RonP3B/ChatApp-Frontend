@@ -14,7 +14,7 @@ export const NewGroupChat: React.FC<{
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{ sx: newGroupChatStyles.dialogContainer }}
+      slotProps={{ paper: { sx: newGroupChatStyles.dialogContainer } }}
     >
       <DialogTitle>New Group Chat</DialogTitle>
       <Divider />

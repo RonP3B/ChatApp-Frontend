@@ -1,6 +1,26 @@
 import { Theme } from "@mui/material/styles";
 
-export const getMessageStyles = (isLoggedUser: boolean, error: boolean) => {
+export const MessageStyles = {
+  messageMedia: {
+    maxWidth: "100%",
+    borderRadius: "10px",
+    marginTop: "8px",
+    maxHeight: 270,
+    minHeight: 100,
+    border: "5px solid rgba(0, 0, 0, 0.2)",
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+  },
+
+  messageAudio: {
+    maxWidth: "100%",
+    marginTop: "8px",
+  },
+};
+
+export const getDynamicMessageStyles = (
+  isLoggedUser: boolean,
+  error: boolean
+) => {
   const flexDirection = !isLoggedUser ? "row" : "row-reverse";
   const backgroundColor = !isLoggedUser ? "secondary.main" : "primary.main";
 
@@ -57,21 +77,6 @@ export const getMessageStyles = (isLoggedUser: boolean, error: boolean) => {
       fontSize: "0.7rem",
       textAlign: "right",
       color: isLoggedUser ? "secondary.main" : "black",
-    },
-
-    messageMedia: {
-      maxWidth: "100%",
-      borderRadius: "10px",
-      marginTop: "8px",
-      maxHeight: 270,
-      minHeight: 100,
-      border: "5px solid rgba(0, 0, 0, 0.2)",
-      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
-    },
-
-    messageAudio: {
-      maxWidth: "100%",
-      marginTop: "8px",
     },
   };
 };

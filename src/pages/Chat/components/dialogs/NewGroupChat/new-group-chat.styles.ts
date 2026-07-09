@@ -8,7 +8,11 @@ export const newGroupChatStyles = {
   },
 
   input: {
-    mb: 1,
+    marginBottom: 1,
+  },
+
+  avatar: {
+    marginRight: 2,
   },
 
   linarProgressContainer: {

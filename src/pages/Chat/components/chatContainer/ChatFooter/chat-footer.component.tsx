@@ -29,47 +29,52 @@ export const ChatFooter: React.FC = () => {
         fullWidth
         placeholder="Message"
         maxRows={10}
-        InputProps={{
-          sx: ChatFooterStyles.input,
-          endAdornment: (
-            <Fragment>
-              <InputAdornment position="end">
-                <IconButton
-                  color="primary"
-                  id="attach-button"
-                  aria-controls={
-                    chatFooterValues.open ? "file-options" : undefined
-                  }
-                  aria-haspopup="true"
-                  aria-expanded={chatFooterValues.open ? "true" : undefined}
-                  onClick={chatFooterActions.handleClick}
+        slotProps={{
+          input: {
+            sx: ChatFooterStyles.input,
+            endAdornment: (
+              <Fragment>
+                <InputAdornment
+                  position="end"
+                  sx={ChatFooterStyles.inputAdornment}
                 >
-                  <AttachFileIcon />
-                </IconButton>
-              </InputAdornment>
-              <Menu
-                id="file-options"
-                anchorEl={chatFooterValues.anchorEl}
-                open={chatFooterValues.open}
-                onClose={chatFooterActions.handleClose}
-                MenuListProps={{ "aria-labelledby": "attach-button" }}
-                anchorOrigin={chatFooterValues.menuOrigin.anchorOrigin}
-                transformOrigin={chatFooterValues.menuOrigin.transformOrigin}
-              >
-                {chatFooterValues.menuItems.map((item) => (
-                  <MenuItem
-                    key={item.text}
-                    onClick={() =>
-                      chatFooterActions.handleFileInputClick(item.text)
+                  <IconButton
+                    color="primary"
+                    id="attach-button"
+                    aria-controls={
+                      chatFooterValues.open ? "file-options" : undefined
                     }
+                    aria-haspopup="true"
+                    aria-expanded={chatFooterValues.open ? "true" : undefined}
+                    onClick={chatFooterActions.handleClick}
                   >
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText>{item.text}</ListItemText>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Fragment>
-          ),
+                    <AttachFileIcon />
+                  </IconButton>
+                </InputAdornment>
+                <Menu
+                  id="file-options"
+                  anchorEl={chatFooterValues.anchorEl}
+                  open={chatFooterValues.open}
+                  onClose={chatFooterActions.handleClose}
+                  slotProps={{ list: { "aria-labelledby": "attach-button" } }}
+                  anchorOrigin={chatFooterValues.menuOrigin.anchorOrigin}
+                  transformOrigin={chatFooterValues.menuOrigin.transformOrigin}
+                >
+                  {chatFooterValues.menuItems.map((item) => (
+                    <MenuItem
+                      key={item.text}
+                      onClick={() =>
+                        chatFooterActions.handleFileInputClick(item.text)
+                      }
+                    >
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                      <ListItemText>{item.text}</ListItemText>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Fragment>
+            ),
+          },
         }}
       />
       <Fab

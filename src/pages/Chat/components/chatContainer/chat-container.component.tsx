@@ -1,4 +1,4 @@
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import { useSelectedChat } from "@/shared/contexts/ChatContext";
 import { ChatMain } from "./ChatMain/chat-main.component";
 import { NoChats } from "..";
@@ -14,7 +14,7 @@ export const ChatContainer: React.FC = () => {
       <NoChats
         msg="Select a chat"
         chatSection={true}
-        Icon={ChatBubbleOutlineIcon}
+        Icon={ChatBubbleOutlineOutlinedIcon}
         handleButton={undefined}
       />
     );

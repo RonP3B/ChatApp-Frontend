@@ -52,14 +52,16 @@ export const ImageInput: React.FC<ImageInputProps> = ({
           helperText={
             formik.getFieldMeta(name).touched && formik.getFieldMeta(name).error
           }
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton edge="end">
-                  <AddAPhotoIcon sx={imageInputStyles.icon} />
-                </IconButton>
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton edge="end">
+                    <AddAPhotoIcon sx={imageInputStyles.icon} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
           }}
         />
       </Box>

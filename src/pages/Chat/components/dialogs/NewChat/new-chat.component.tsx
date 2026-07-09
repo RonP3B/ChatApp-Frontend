@@ -34,7 +34,7 @@ export const NewChat: React.FC<{ open: boolean; handleClose: () => void }> = ({
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{ sx: newChatStyles.dialogContainer }}
+      slotProps={{ paper: { sx: newChatStyles.dialogContainer } }}
     >
       <DialogTitle>New Chat</DialogTitle>
       <Divider />
@@ -50,12 +50,14 @@ export const NewChat: React.FC<{ open: boolean; handleClose: () => void }> = ({
               variant="standard"
               fullWidth
               sx={newChatStyles.input}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonSearchIcon />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonSearchIcon />
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
             {newChatValues.loading && (
@@ -67,16 +69,17 @@ export const NewChat: React.FC<{ open: boolean; handleClose: () => void }> = ({
               <ScrollBar>
                 <List>
                   {newChatValues.users.map((user) => (
-                    <ListItem
-                      key={user.id}
-                      disablePadding
-                      selected={newChatValues.selectedUser?.id === user.id}
-                    >
+                    <ListItem key={user.id} disablePadding>
                       <ListItemButton
+                        selected={newChatValues.selectedUser?.id === user.id}
                         onClick={() => newChatActions.handleUserSelection(user)}
                       >
                         <ListItemIcon>
-                          <Avatar src={user.avatar} alt={user.username} />
+                          <Avatar
+                            src={user.avatar}
+                            alt={user.username}
+                            sx={newChatStyles.avatar}
+                          />
                         </ListItemIcon>
                         <ListItemText primary={user.username} />
                       </ListItemButton>

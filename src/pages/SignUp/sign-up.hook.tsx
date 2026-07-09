@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SignUpValues } from "./interfaces";
 import { signUp } from "./sign-up.service";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { getAxiosErrorMessage } from "@/shared/utils";
 
 export const useSignUp = () => {

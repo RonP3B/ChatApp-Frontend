@@ -1,5 +1,5 @@
 import { AuthStatus, useAuth } from "@/shared/contexts/AuthContext";
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router";
 
 export const RequiresUnauth: React.FC = () => {
   const auth = useAuth();

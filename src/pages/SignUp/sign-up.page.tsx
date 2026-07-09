@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import { Formik, Form } from "formik";
 import { authStyles } from "@/shared/styles";
 import { useSignUp } from "./sign-up.hook";
@@ -27,10 +27,10 @@ export const SignUp: React.FC = () => {
           <Form>
             <ImageInput name="avatar" variant="outlined" label="User avatar" />
             <Grid container spacing={1.5}>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <InputField label="Username" name="username" />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <InputField
                   label="Email"
                   type="email"
@@ -38,10 +38,10 @@ export const SignUp: React.FC = () => {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <InputField label="Password" name="password" type="password" />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <InputField
                   label="Confirm password"
                   name="confirmPassword"

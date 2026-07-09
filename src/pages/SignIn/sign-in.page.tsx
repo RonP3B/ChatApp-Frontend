@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import { Formik, Form } from "formik";
 import { useSignIn } from "./sign-in.hook";
 import { Box, Typography, Button, Link, Divider } from "@mui/material";
@@ -43,12 +43,12 @@ export const SignIn: React.FC = () => {
           </Form>
         )}
       </Formik>
-      <Box my={1}>
+      <Box sx={{ my: 1 }}>
         <Link
           component={RouterLink}
           to="/password-recovery"
           underline="hover"
-          fontWeight={500}
+          sx={{ fontWeight: 500 }}
         >
           Forgot Password?
         </Link>
