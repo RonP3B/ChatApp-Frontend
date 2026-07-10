@@ -35,10 +35,7 @@ export const Message: React.FC<MessageProps> = ({
           sx={messageValues.dynamicMessageStyles.textColor}
         >
           {messageType === MessageType.IMAGE && (
-            <Box
-              component="span"
-              sx={{ display: "block", height: messageValues.mediaHeight }}
-            >
+            <Box component="span" sx={messageValues.mediaPlaceholderStyles}>
               <Box
                 component="img"
                 src={content}
@@ -49,10 +46,7 @@ export const Message: React.FC<MessageProps> = ({
             </Box>
           )}
           {messageType === MessageType.VIDEO && (
-            <Box
-              component="span"
-              sx={{ display: "block", height: messageValues.mediaHeight }}
-            >
+            <Box component="span" sx={messageValues.mediaPlaceholderStyles}>
               <Box
                 component="video"
                 controls
@@ -81,7 +75,7 @@ export const Message: React.FC<MessageProps> = ({
             {formatDate(new Date(time))}
           </Typography>
         ) : (
-          <Typography variant="caption" style={{ color: "darkred" }}>
+          <Typography variant="caption" sx={MessageStyles.errorText}>
             This message couldn't be sent &#9785;
           </Typography>
         )}
