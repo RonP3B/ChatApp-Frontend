@@ -6,6 +6,10 @@ export const ChatListItemStyles = {
     marginRight: 2,
   },
 
+  circularSkeleton: {
+    marginRight: 2,
+  },
+
   listItemText: {
     width: "70vw",
   },
@@ -14,6 +18,11 @@ export const ChatListItemStyles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+
+  listItemSecondaryContainer: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 
   listItemTextDate: {

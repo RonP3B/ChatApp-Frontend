@@ -1,6 +1,10 @@
 import { Box } from "@mui/material";
 import { ScrollBarProps } from "./scrollbar.interface";
-import { StyledRootScrollbar, StyledScrollbar } from "./scrollbar.styles";
+import {
+  ScrollBarStyles,
+  StyledRootScrollbar,
+  StyledScrollbar,
+} from "./scrollbar.styles";
 
 export const ScrollBar: React.FC<ScrollBarProps> = ({
   children,
@@ -19,18 +23,7 @@ export const ScrollBar: React.FC<ScrollBarProps> = ({
   if (isMobile) {
     return (
       <Box
-        sx={{
-          direction: "inherit",
-          boxSizing: "border-box",
-          position: "relative",
-          display: "block",
-          height: "100%",
-          width: "auto",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          overflow: "auto",
-          ...sx,
-        }}
+        sx={{ ...ScrollBarStyles.mobileContainer, ...sx }}
         ref={customRef}
         {...props}
       >

@@ -4,6 +4,7 @@ import { authStyles } from "@/shared/styles";
 import { useValidateCodeForm } from "./validate-code-form.hook";
 import { Box, Link } from "@mui/material";
 import { Dispatch, Fragment, SetStateAction } from "react";
+import { validateCodeFormStyles } from "./validate-code-form.styles";
 
 export const ValidateCodeForm: React.FC<{
   setActiveStep: Dispatch<SetStateAction<number>>;
@@ -33,11 +34,11 @@ export const ValidateCodeForm: React.FC<{
           </Form>
         )}
       </Formik>
-      <Box sx={{ mt: 1 }}>
+      <Box sx={validateCodeFormStyles.linkContainer}>
         <Link
           href="#"
           underline="hover"
-          sx={{ fontWeight: 500 }}
+          sx={validateCodeFormStyles.resendCodeLink}
           onClick={() => setActiveStep(0)}
         >
           Didn&apos;t get the code?
