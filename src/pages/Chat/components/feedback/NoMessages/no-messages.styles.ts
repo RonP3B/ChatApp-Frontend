@@ -11,4 +11,8 @@ export const noMessagesStyles = {
     color: "primary.main",
     fontSize: 150,
   },
+
+  noMessagesTitle: {
+    marginTop: -2.5,
+  },
 };

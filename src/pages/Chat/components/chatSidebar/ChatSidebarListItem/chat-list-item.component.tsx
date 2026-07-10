@@ -31,7 +31,7 @@ export const ChatListItem: React.FC<ChatListItemProps> = ({
               variant="circular"
               width={40}
               height={40}
-              sx={{ mr: 2 }}
+              sx={ChatListItemStyles.circularSkeleton}
             />
           </ListItemIcon>
           <ListItemText
@@ -47,7 +47,7 @@ export const ChatListItem: React.FC<ChatListItemProps> = ({
             secondary={
               <Box
                 component="span"
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={ChatListItemStyles.listItemSecondaryContainer}
               >
                 <Typography
                   variant="body2"
@@ -104,7 +104,7 @@ export const ChatListItem: React.FC<ChatListItemProps> = ({
           secondary={
             <Box
               component="span"
-              sx={{ display: "flex", justifyContent: "space-between" }}
+              sx={ChatListItemStyles.listItemSecondaryContainer}
             >
               <Typography
                 variant="body2"

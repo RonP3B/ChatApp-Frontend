@@ -4,6 +4,7 @@ import { useSignIn } from "./sign-in.hook";
 import { Box, Typography, Button, Link, Divider } from "@mui/material";
 import { AuthModal, InputField, SubmitButton } from "@/shared/components";
 import { authStyles } from "@/shared/styles";
+import { signInStyles } from "./sign-in.styles";
 
 export const SignIn: React.FC = () => {
   const { signInValues, signInActions } = useSignIn();
@@ -43,12 +44,12 @@ export const SignIn: React.FC = () => {
           </Form>
         )}
       </Formik>
-      <Box sx={{ my: 1 }}>
+      <Box sx={signInStyles.forgotPasswordContainer}>
         <Link
           component={RouterLink}
           to="/password-recovery"
           underline="hover"
-          sx={{ fontWeight: 500 }}
+          sx={signInStyles.forgotPasswordLink}
         >
           Forgot Password?
         </Link>

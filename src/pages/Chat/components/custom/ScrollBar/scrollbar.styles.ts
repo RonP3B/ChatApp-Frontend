@@ -1,6 +1,20 @@
 import { styled, alpha } from "@mui/material/styles";
 import SimpleBar from "simplebar-react";
 
+export const ScrollBarStyles = {
+  mobileContainer: {
+    direction: "inherit",
+    boxSizing: "border-box",
+    position: "relative",
+    display: "block",
+    height: "100%",
+    width: "auto",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    overflow: "auto",
+  },
+};
+
 export const StyledRootScrollbar = styled("div")(() => ({
   flexGrow: 1,
   height: "100%",
