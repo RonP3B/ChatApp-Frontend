@@ -16,6 +16,7 @@ import {
 } from "react";
 import {
   addMessageToSelectedChat,
+  addSenderNameToGroupMessage,
   createMessageToDisplay,
   createMessageToSend,
   handleMessageSending,
@@ -86,14 +87,6 @@ export const useChatFooter = () => {
     handleClose();
   };
 
-  const addSenderNameToGroupMessage = (
-    messageToSend: SendMessageValues
-  ): void => {
-    if (selectedChat?.isGroup) {
-      messageToSend["senderName"] = currentUser.user.username;
-    }
-  };
-
   const sendTextMessage = async (): Promise<void> => {
     if (!selectedChat) return;
 
@@ -107,7 +100,11 @@ export const useChatFooter = () => {
         textMsgToSend.trim()
       );
 
-      addSenderNameToGroupMessage(messageToSend);
+      addSenderNameToGroupMessage(
+        messageToSend,
+        selectedChat,
+        currentUser.user.username
+      );
 
       const messageToDisplay: Message = await createMessageToDisplay(
         messageToSend,

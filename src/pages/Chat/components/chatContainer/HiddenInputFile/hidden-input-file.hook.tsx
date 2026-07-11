@@ -8,6 +8,7 @@ import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import {
   addMessageToSelectedChat,
+  addSenderNameToGroupMessage,
   createMessageToDisplay,
   createMessageToSend,
   handleMessageSending,
@@ -30,14 +31,6 @@ export const useHiddenInputFile = () => {
     event.target.value = "";
   };
 
-  const addSenderNameToGroupMessage = (
-    messageToSend: SendMessageValues
-  ): void => {
-    if (selectedChat?.isGroup) {
-      messageToSend["senderName"] = currentUser.user.username;
-    }
-  };
-
   const sendFileMessage = async (
     file: File,
     fileType: string
@@ -58,7 +51,11 @@ export const useHiddenInputFile = () => {
         file
       );
 
-      addSenderNameToGroupMessage(messageToSend);
+      addSenderNameToGroupMessage(
+        messageToSend,
+        selectedChat,
+        currentUser.user.username
+      );
 
       const messageToDisplay: Message = await createMessageToDisplay(
         messageToSend,
