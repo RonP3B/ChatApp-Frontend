@@ -1,12 +1,9 @@
-import { PopoverOrigin } from "@mui/material";
-import ImageIcon from "@mui/icons-material/Image";
-import CameraRollIcon from "@mui/icons-material/CameraRoll";
-import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import { AcceptedFileTypes, MessageType } from "@/shared/enums";
 import { Message } from "@/shared/interfaces";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { SendMessageValues } from "@/pages/Chat/interfaces";
 import { nanoid } from "nanoid";
+import { MENU_ITEMS, MENU_ORIGIN } from "./chat-footer.const";
 import {
   useState,
   useRef,
@@ -46,12 +43,6 @@ export const useChatFooter = () => {
     Audio: useRef<HTMLInputElement>(null),
   };
 
-  const menuItems: { text: string; icon: JSX.Element }[] = [
-    { text: "Image", icon: <ImageIcon /> },
-    { text: "Video", icon: <CameraRollIcon /> },
-    { text: "Audio", icon: <AudiotrackIcon /> },
-  ];
-
   const fileInputs: {
     customRef: MutableRefObject<HTMLInputElement | null>;
     fileType: AcceptedFileTypes;
@@ -60,14 +51,6 @@ export const useChatFooter = () => {
     { customRef: fileInputRefs.Video, fileType: AcceptedFileTypes.Video },
     { customRef: fileInputRefs.Audio, fileType: AcceptedFileTypes.Audio },
   ];
-
-  const menuOrigin: {
-    anchorOrigin: PopoverOrigin;
-    transformOrigin: PopoverOrigin;
-  } = {
-    anchorOrigin: { vertical: "top", horizontal: "right" },
-    transformOrigin: { vertical: "bottom", horizontal: "right" },
-  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     chatActions.setTextMsgToSend(event.target.value);
@@ -82,8 +65,7 @@ export const useChatFooter = () => {
   };
 
   const handleFileInputClick = (fileType: string): void => {
-    const ref = fileInputRefs[fileType];
-    ref.current?.click();
+    fileInputRefs[fileType].current?.click();
     handleClose();
   };
 
@@ -113,7 +95,6 @@ export const useChatFooter = () => {
       );
 
       addMessageToSelectedChat(messageToDisplay, chatActions.setSelectedChat);
-
       chatActions.setTextMsgToSend("");
 
       await handleMessageSending(
@@ -137,11 +118,10 @@ export const useChatFooter = () => {
       open,
       fileInputRefs,
       fileInputs,
-      menuOrigin,
-      menuItems,
+      menuOrigin: MENU_ORIGIN,
+      menuItems: MENU_ITEMS,
       disableButton,
     },
-
     chatFooterActions: {
       handleInputChange,
       handleClick,
