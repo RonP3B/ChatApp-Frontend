@@ -4,7 +4,7 @@ import { SignUpValues } from "./interfaces";
 import { signUp } from "./sign-up.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { getAxiosErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage, passwordValidationSchema } from "@/shared/utils";
 
 export const useSignUp = () => {
   const navigate = useNavigate();
@@ -33,25 +33,7 @@ export const useSignUp = () => {
       .matches(/^\S+@\S+\.\S+$/, "Invalid email format")
       .max(100, "Email must be at most 100 characters"),
 
-    password: Yup.string()
-      .required("Password required")
-      .matches(
-        /^(?=.*[a-z])/,
-        "The password must contain at least one lowercase letter"
-      )
-      .matches(
-        /^(?=.*[A-Z])/,
-        "The password must contain at least one uppercase letter"
-      )
-      .matches(/^(?=.*\d)/, "The password must contain at least one number")
-      .matches(
-        /^(?=.*[!@#$%^&*()_\-+=[\]{};:<>|./?])/,
-        "The password must contain at least one special character"
-      )
-      .matches(
-        /^(?=.{8,})/,
-        "The password must have a minimum of 8 characters"
-      ),
+    password: passwordValidationSchema.required("Password required"),
 
     confirmPassword: Yup.string()
       .required("Confirm password required")

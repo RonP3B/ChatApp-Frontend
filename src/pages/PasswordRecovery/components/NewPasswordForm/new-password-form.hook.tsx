@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { resetPassword } from "../../services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { getAxiosErrorMessage } from "@/shared/utils";
+import { getAxiosErrorMessage, passwordValidationSchema } from "@/shared/utils";
 
 export const useNewPasswordForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
@@ -19,25 +19,7 @@ export const useNewPasswordForm = (
   };
 
   const validationSchema = Yup.object({
-    newPassword: Yup.string()
-      .required("New password required")
-      .matches(
-        /^(?=.*[a-z])/,
-        "The password must contain at least one lowercase letter"
-      )
-      .matches(
-        /^(?=.*[A-Z])/,
-        "The password must contain at least one uppercase letter"
-      )
-      .matches(/^(?=.*\d)/, "The password must contain at least one number")
-      .matches(
-        /^(?=.*[!@#$%^&*()_\-+=[\]{};:<>|./?])/,
-        "The password must contain at least one special character"
-      )
-      .matches(
-        /^(?=.{8,})/,
-        "The password must have a minimum of 8 characters"
-      ),
+    newPassword: passwordValidationSchema.required("New password required"),
 
     confirmNewPassword: Yup.string()
       .required("Confirm new password required")
