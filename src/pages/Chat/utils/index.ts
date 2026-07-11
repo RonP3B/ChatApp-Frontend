@@ -4,3 +4,4 @@ export * from "./handle-message-sending.util";
 export * from "./play-audio.util";
 export * from "./update-room-messages.util";
 export * from "./add-sender-name-to-group-message.util.ts";
+export * from "./validate-file-message.util";
