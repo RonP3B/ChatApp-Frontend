@@ -1,34 +1,16 @@
 import * as Yup from "yup";
-import { useDebaounce, useToast } from "@/shared/hooks";
+import { useUserSearch } from "@/pages/Chat/hooks";
 import { User } from "@/shared/interfaces";
-import { getUsers } from "@/pages/Chat/services";
-import { getAxiosErrorMessage } from "@/shared/utils";
-import axios, { AxiosResponse } from "axios";
+
 import { FormikProps } from "formik";
-import { useCurrentUser } from "@/shared/contexts/AuthContext";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction } from "react";
 
 export const useMembersForm = (
   setActiveStep: Dispatch<SetStateAction<number>>,
   setGroupMembers: Dispatch<SetStateAction<User[]>>,
   groupMembers: User[]
 ) => {
-  const currentUser = useCurrentUser();
-  const toast = useToast();
-  const toastRef = useRef(toast);
-  const [usernameFilter, setUsernameFilter] = useState<string>("");
-  const debouncedUsernameFilter = useDebaounce(usernameFilter);
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
-  const loggedUserId: string = currentUser.user.id;
+  const { userSearchValues, userSearchActions } = useUserSearch();
   const initialValues: { members: User[] } = { members: groupMembers };
 
   const validationSchema = Yup.object({
@@ -36,46 +18,6 @@ export const useMembersForm = (
       .min(2, "At least two participants are required.")
       .required("Participants required."),
   });
-
-  useEffect(() => {
-    toastRef.current = toast;
-  }, [toast]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchUsers = async (): Promise<void> => {
-      try {
-        setLoading(true);
-        const res: AxiosResponse = await getUsers(
-          debouncedUsernameFilter,
-          controller.signal
-        );
-        const data: User[] = res.data;
-        const filteredUsers = data.filter((user) => user.id !== loggedUserId);
-        setUsers(filteredUsers);
-        setDisplayNotFound(filteredUsers.length === 0);
-      } catch (error) {
-        if (axios.isCancel(error)) return;
-        toastRef.current(getAxiosErrorMessage(error), { type: "error" });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (debouncedUsernameFilter) {
-      fetchUsers();
-    } else {
-      setUsers([]);
-      setDisplayNotFound(false);
-    }
-
-    return () => controller.abort();
-  }, [debouncedUsernameFilter, loggedUserId]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setUsernameFilter(event.target.value);
-  };
 
   const handleUserAddition = (
     user: User,
@@ -102,23 +44,12 @@ export const useMembersForm = (
     setGroupMembers(updatedMembers);
   };
 
-  const onSubmit = (): void => {
-    setActiveStep(1);
-  };
+  const onSubmit = (): void => setActiveStep(1);
 
   return {
-    membersFormValues: {
-      users,
-      loading,
-      usernameFilter,
-      initialValues,
-      validationSchema,
-      displayNotFound,
-      debouncedUsernameFilter,
-    },
-
+    membersFormValues: { ...userSearchValues, initialValues, validationSchema },
     membersFormActions: {
-      handleInputChange,
+      ...userSearchActions,
       handleUserAddition,
       removeSelectedUser,
       onSubmit,
