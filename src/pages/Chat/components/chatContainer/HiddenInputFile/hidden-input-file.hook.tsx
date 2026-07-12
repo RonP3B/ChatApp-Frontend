@@ -3,15 +3,17 @@ import { SendMessageValues } from "@/pages/Chat/interfaces";
 import { useToast } from "@/shared/hooks";
 import { Message } from "@/shared/interfaces";
 import { nanoid } from "nanoid";
-import { FileTypeMaxSizes, MessageType } from "@/shared/enums";
+import { MessageType } from "@/shared/enums";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import {
   addMessageToSelectedChat,
+  addSenderNameToGroupMessage,
   createMessageToDisplay,
   createMessageToSend,
   handleMessageSending,
   handleMessageSendingFailure,
+  validateFileMessage,
 } from "@/pages/Chat/utils";
 
 export const useHiddenInputFile = () => {
@@ -30,14 +32,6 @@ export const useHiddenInputFile = () => {
     event.target.value = "";
   };
 
-  const addSenderNameToGroupMessage = (
-    messageToSend: SendMessageValues
-  ): void => {
-    if (selectedChat?.isGroup) {
-      messageToSend["senderName"] = currentUser.user.username;
-    }
-  };
-
   const sendFileMessage = async (
     file: File,
     fileType: string
@@ -49,7 +43,7 @@ export const useHiddenInputFile = () => {
     try {
       const explicitFileType: string = fileType.split("/")[0];
 
-      if (!validateFileMessage(explicitFileType, file)) return;
+      if (!validateFileMessage(explicitFileType, file, toast)) return;
 
       const messageToSend: SendMessageValues = createMessageToSend(
         currentUser.user.id,
@@ -58,7 +52,11 @@ export const useHiddenInputFile = () => {
         file
       );
 
-      addSenderNameToGroupMessage(messageToSend);
+      addSenderNameToGroupMessage(
+        messageToSend,
+        selectedChat,
+        currentUser.user.username
+      );
 
       const messageToDisplay: Message = await createMessageToDisplay(
         messageToSend,
@@ -81,43 +79,6 @@ export const useHiddenInputFile = () => {
         chatActions.setSelectedChat
       );
     }
-  };
-
-  const validateFileMessage = (
-    explicitFileType: string,
-    file: File
-  ): boolean => {
-    const isFileTypeValid = validateFileType(explicitFileType, file);
-    const isFileSizeValid = validateFileSize(explicitFileType, file);
-    return isFileTypeValid && isFileSizeValid;
-  };
-
-  const validateFileType = (explicitFileType: string, file: File): boolean => {
-    if (explicitFileType !== file.type.split("/")[0]) {
-      toast("Invalid file type. Please choose a valid file type.", {
-        type: "error",
-      });
-      return false;
-    }
-
-    return true;
-  };
-
-  const validateFileSize = (explicitFileType: string, file: File): boolean => {
-    const fileTypeMaxSizesKey =
-      explicitFileType.toUpperCase() as keyof typeof FileTypeMaxSizes;
-
-    if (file.size > FileTypeMaxSizes[fileTypeMaxSizesKey]) {
-      toast(
-        `File size must be equal or less than ${
-          FileTypeMaxSizes[fileTypeMaxSizesKey] / (1024 * 1024)
-        }MB.`,
-        { type: "error" }
-      );
-      return false;
-    }
-
-    return true;
   };
 
   return { handleOnChangeInput };

@@ -1,65 +1,18 @@
-import { createRoom, getUsers } from "@/pages/Chat/services";
-import { useCurrentUser } from "@/shared/contexts/AuthContext";
+import { createRoom } from "@/pages/Chat/services";
 import { useChatActions } from "@/shared/contexts/ChatContext";
-import { useDebaounce, useToast } from "@/shared/hooks";
+import { useUserSearch } from "@/pages/Chat/hooks";
+import { useToast } from "@/shared/hooks";
 import { Room, User } from "@/shared/interfaces";
 import { getAxiosErrorMessage } from "@/shared/utils";
-import axios, { AxiosResponse } from "axios";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { AxiosResponse } from "axios";
+import { useState } from "react";
 
 export const useNewChat = (handleClose: () => void) => {
   const chatActions = useChatActions();
-  const currentUser = useCurrentUser();
   const toast = useToast();
-  const toastRef = useRef(toast);
-  const [usernameFilter, setUsernameFilter] = useState<string>("");
-  const debouncedUsernameFilter = useDebaounce(usernameFilter);
-  const [users, setUsers] = useState<User[]>([]);
+  const { userSearchValues, userSearchActions } = useUserSearch();
   const [selectedUser, setSelectedUser] = useState<User>();
-  const [loading, setLoading] = useState<boolean>(false);
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
-  const [displayNotFound, setDisplayNotFound] = useState<boolean>(false);
-  const loggedUserId: string = currentUser.user.id;
-
-  useEffect(() => {
-    toastRef.current = toast;
-  }, [toast]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchUsers = async (): Promise<void> => {
-      try {
-        setLoading(true);
-        const res: AxiosResponse = await getUsers(
-          debouncedUsernameFilter,
-          controller.signal
-        );
-        const data: User[] = res.data;
-        const filteredUsers = data.filter((user) => user.id !== loggedUserId);
-        setUsers(filteredUsers);
-        setDisplayNotFound(filteredUsers.length === 0);
-      } catch (error) {
-        if (axios.isCancel(error)) return;
-        toastRef.current(getAxiosErrorMessage(error), { type: "error" });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (debouncedUsernameFilter) {
-      fetchUsers();
-    } else {
-      setUsers([]);
-      setDisplayNotFound(false);
-    }
-
-    return () => controller.abort();
-  }, [debouncedUsernameFilter, loggedUserId]);
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setUsernameFilter(event.target.value);
-  };
 
   const handleUserSelection = (user: User): void => {
     setSelectedUser(user);
@@ -83,20 +36,7 @@ export const useNewChat = (handleClose: () => void) => {
   };
 
   return {
-    newChatValues: {
-      usernameFilter,
-      debouncedUsernameFilter,
-      loading,
-      users,
-      selectedUser,
-      loadingSubmit,
-      displayNotFound,
-    },
-
-    newChatActions: {
-      handleInputChange,
-      handleUserSelection,
-      handleSubmit,
-    },
+    newChatValues: { ...userSearchValues, selectedUser, loadingSubmit },
+    newChatActions: { ...userSearchActions, handleUserSelection, handleSubmit },
   };
 };
