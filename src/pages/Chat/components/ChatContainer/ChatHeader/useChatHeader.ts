@@ -21,7 +21,7 @@ export const useChatHeader = (selectedChat: Room | null) => {
       (p) => p.id !== loggedUserId
     );
     onlineStatus = participant?.isOnline ? "online" : "offline";
-    onlineStatusColor = participant?.isOnline ? "primary.main" : undefined;
+    onlineStatusColor = participant?.isOnline ? "primary" : undefined;
   } else {
     const onlineCount: number = participants.filter((p) => p.isOnline).length;
     const participantsLength: number = participants.length;
