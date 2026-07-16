@@ -1,3 +1,3 @@
-export * from "./persist-session.component";
-export * from "./requires-auth.component";
-export * from "./requires-unauth.component";
+export * from "./PersistSession";
+export * from "./RequiresAuth";
+export * from "./RequiresUnauth";

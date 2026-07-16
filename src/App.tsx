@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router";
 import {
-  SignIn,
-  SignUp,
-  PasswordRecovery,
-  Chat,
-  UserActivation,
+  SignInPage,
+  SignUpPage,
+  PasswordRecoveryPage,
+  ChatPage,
+  UserActivationPage,
 } from "./pages";
 import {
   PersistSession,
@@ -17,14 +17,17 @@ const App = () => {
     <Routes>
       <Route element={<PersistSession />}>
         <Route element={<RequiresUnauth />}>
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/password-recovery" element={<PasswordRecovery />} />
+          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/password-recovery" element={<PasswordRecoveryPage />} />
         </Route>
         <Route element={<RequiresAuth />}>
-          <Route path="/" element={<Chat />} />
+          <Route path="/" element={<ChatPage />} />
         </Route>
-        <Route path="/user-activation/:username" element={<UserActivation />} />
+        <Route
+          path="/user-activation/:username"
+          element={<UserActivationPage />}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
