@@ -1,2 +1,2 @@
-export * from "./MUI/global/auth.styles";
-export * from "./MUI/themes/main-theme.styles";
+export * from "./MUI/global/authStyles";
+export * from "./MUI/themes/mainTheme";

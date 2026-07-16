@@ -1,1 +1,1 @@
-export * from "./CenteredLoading/centered-loading.component";
+export * from "./CenteredLoading/CenteredLoading";

@@ -1,1 +1,1 @@
-export * from "./ChatAppAPI/chat-app.api";
+export * from "./ChatAppAPI/chatAppApi";
