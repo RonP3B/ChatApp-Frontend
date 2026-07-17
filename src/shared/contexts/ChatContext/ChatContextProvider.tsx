@@ -1,8 +1,11 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { Room } from "@/shared/types";
-import { updateUserLastCheckedTime } from "@/shared/services";
 import { ChatContextActions } from "./ChatContextActions";
 import { useCurrentUser } from "../AuthContext";
+import {
+  updateUserLastCheckedTime,
+  updateUserLastCheckedTimeOnUnload,
+} from "@/shared/services";
 import {
   ChatActionsContext,
   ChatDraftContext,
@@ -24,13 +27,8 @@ export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
 
     const sendLastChecked = (): void => {
       if (sentRef.current || !selectedChat) return;
-
       sentRef.current = true;
-
-      updateUserLastCheckedTime({
-        roomId: selectedChat.id,
-        userId,
-      }).catch(console.error);
+      updateUserLastCheckedTimeOnUnload({ roomId: selectedChat.id, userId });
     };
 
     const handleVisibilityChange = (): void => {
