@@ -6,7 +6,7 @@ import { ChatFooter } from "./ChatFooter/ChatFooter";
 import { ChatHeader } from "./ChatHeader/ChatHeader";
 import { Fragment } from "react";
 
-export const ChatContainer: React.FC = () => {
+export const ChatContainer = () => {
   const selectedChat = useSelectedChat();
 
   if (!selectedChat) {

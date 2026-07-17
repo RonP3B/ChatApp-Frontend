@@ -4,10 +4,10 @@ import { authStyles } from "@/shared/styles";
 import { useNewPasswordForm } from "./useNewPasswordForm";
 import { NewPasswordFormProps } from "./NewPasswordFormProps";
 
-export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
+export const NewPasswordForm = ({
   setActiveStep,
   username,
-}) => {
+}: NewPasswordFormProps) => {
   const { newPasswordFormValues, newPasswordFormActions } = useNewPasswordForm({
     setActiveStep,
     username,

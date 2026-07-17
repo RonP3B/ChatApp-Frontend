@@ -1,9 +1,12 @@
 import Logo from "@/assets/images/logo.png";
 import { Box, Grid, Typography } from "@mui/material";
 import { authModalStyles } from "./authModalStyles";
+import { ReactNode } from "react";
 
-export const AuthModal: React.FC<{ children: React.ReactNode }> = ({
+export const AuthModal = ({
   children,
+}: {
+  children: ReactNode;
 }) => {
   return (
     <Box sx={authModalStyles.container}>

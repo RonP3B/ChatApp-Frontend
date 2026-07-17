@@ -25,7 +25,7 @@ import {
   ListItemText,
 } from "@mui/material";
 
-export const NewChat: React.FC<NewChatProps> = ({ open, handleClose }) => {
+export const NewChat = ({ open, handleClose }: NewChatProps) => {
   const { newChatValues, newChatActions } = useNewChat(handleClose);
 
   return (

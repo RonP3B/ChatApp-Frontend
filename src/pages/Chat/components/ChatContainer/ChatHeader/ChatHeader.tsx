@@ -4,7 +4,7 @@ import { useChatActions, useSelectedChat } from "@/shared/contexts/ChatContext";
 import { useChatHeader } from "./useChatHeader";
 import { Box, Toolbar, IconButton, Avatar, Typography } from "@mui/material";
 
-export const ChatHeader: React.FC = () => {
+export const ChatHeader = () => {
   const selectedChat = useSelectedChat();
   const { chatHeaderValues } = useChatHeader(selectedChat);
   const chatActions = useChatActions();

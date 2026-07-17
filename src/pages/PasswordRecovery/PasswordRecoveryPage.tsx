@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export const PasswordRecoveryPage: React.FC = () => {
+export const PasswordRecoveryPage = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [username, setUsername] = useState<string>("");
   const stepLabels: string[] = ["Find User", "Confirm Code", "Change Password"];

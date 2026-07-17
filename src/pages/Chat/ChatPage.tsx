@@ -3,7 +3,7 @@ import { ChatContainer, ChatEventsHandler, ChatSidebar } from "./components";
 import { useSelectedChat } from "@/shared/contexts/ChatContext";
 import { useChatStyles } from "./hooks";
 
-export const ChatPage: React.FC = () => {
+export const ChatPage = () => {
   const isScreenBelow900px = useMediaQuery("(max-width:899px)");
   const selectedChat = useSelectedChat();
   const chatStyles = useChatStyles(Boolean(selectedChat));

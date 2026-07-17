@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent } from "react";
+import { ChangeEvent, MouseEvent, ReactNode } from "react";
 
 export interface ChatSidebarHeaderProps {
   chatSidebarHeaderValues: ChatSidebarHeaderValues;
@@ -25,7 +25,7 @@ interface ChatSidebarHeaderActions {
 }
 
 interface MenuItem {
-  icon: React.ReactNode;
+  icon: ReactNode;
   text: string;
   onClick: () => void;
   darkMode?: boolean;

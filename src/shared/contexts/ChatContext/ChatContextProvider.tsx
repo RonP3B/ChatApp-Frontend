@@ -13,8 +13,10 @@ import {
   SelectedChatContext,
 } from "./ChatContext";
 
-export const ChatContextProvider: React.FC<{ children: ReactNode }> = ({
+export const ChatContextProvider = ({
   children,
+}: {
+  children: ReactNode;
 }) => {
   const auth = useCurrentUser();
   const [selectedChat, setSelectedChat] = useState<Room | null>(null);

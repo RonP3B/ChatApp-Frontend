@@ -3,12 +3,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { NoChatsProps } from "./NoChatsProps";
 import { noChatsStyles } from "./noChatsStyles";
 
-export const NoChats: React.FC<NoChatsProps> = ({
+export const NoChats = ({
   msg,
   chatSection,
   Icon,
   handleButton,
-}) => {
+}: NoChatsProps) => {
   return (
     <Box sx={noChatsStyles.container}>
       <Icon sx={noChatsStyles.icon} />

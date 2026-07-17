@@ -6,12 +6,12 @@ import {
   StyledScrollbar,
 } from "./scrollBarStyles";
 
-export const ScrollBar: React.FC<ScrollBarProps> = ({
+export const ScrollBar = ({
   children,
   customRef,
   sx,
   ...props
-}) => {
+}: ScrollBarProps) => {
   const userAgent =
     typeof navigator === "undefined" ? "SSR" : navigator.userAgent;
 

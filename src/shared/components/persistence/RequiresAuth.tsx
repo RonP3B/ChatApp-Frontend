@@ -8,7 +8,7 @@ import {
   SocketContextProvider,
 } from "@/shared/contexts";
 
-export const RequiresAuth: React.FC = () => {
+export const RequiresAuth = () => {
   const auth = useAuth();
 
   if (auth.status === authStatus.Authenticated) {

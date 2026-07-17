@@ -5,10 +5,10 @@ import { GroupInfoForm } from "./GroupInfoForm/GroupInfoForm";
 import { Dialog, DialogTitle, Divider } from "@mui/material";
 import { NewGroupChatProps } from "./NewGroupChatProps";
 
-export const NewGroupChat: React.FC<NewGroupChatProps> = ({
+export const NewGroupChat = ({
   open,
   handleClose,
-}) => {
+}: NewGroupChatProps) => {
   const { newGroupChatValues, newGroupChatActions } = useNewGroupChat();
 
   return (

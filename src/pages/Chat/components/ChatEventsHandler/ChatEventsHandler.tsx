@@ -4,9 +4,9 @@ import { useChatEvents } from "./hooks/useChatEvents";
 import { useSocket } from "@/shared/contexts/SocketContext";
 import { ChatEventsHandlerProps } from "./ChatEventsHandlerProps";
 
-export const ChatEventsHandler: React.FC<ChatEventsHandlerProps> = ({
+export const ChatEventsHandler = ({
   children,
-}) => {
+}: ChatEventsHandlerProps) => {
   const { socket } = useSocket();
   const events = useChatEvents();
 

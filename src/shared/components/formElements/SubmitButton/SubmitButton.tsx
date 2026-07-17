@@ -1,7 +1,7 @@
 import { Button, CircularProgress } from "@mui/material";
 import { SubmitButtonProps } from "./SubmitButtonProps";
 
-export const SubmitButton: React.FC<SubmitButtonProps> = ({
+export const SubmitButton = ({
   loading,
   text,
   loadingText,
@@ -10,7 +10,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
   disabled = false,
   sx = {},
   onClick = undefined,
-}) => {
+}: SubmitButtonProps) => {
   return (
     <Button
       type="submit"

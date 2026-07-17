@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 import { CenteredLoading } from "../feedback";
 import { authStatus, useAuth } from "@/shared/contexts/AuthContext";
 
-export const PersistSession: React.FC = () => {
+export const PersistSession = () => {
   const auth = useAuth();
   const { refreshAccessToken } = useRefreshToken();
   const [loading, setLoading] = useState<boolean>(true);

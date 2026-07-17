@@ -3,8 +3,10 @@ import { AuthActionsContext, AuthStateContext } from "./AuthContext";
 import { AuthActions, AuthState } from "./types";
 import { initialAuthState } from "./constants";
 
-export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({
+export const AuthContextProvider = ({
   children,
+}: {
+  children: ReactNode;
 }) => {
   const [auth, setAuth] = useState<AuthState>(initialAuthState);
   const actions: AuthActions = useMemo(() => ({ setAuth }), []);
