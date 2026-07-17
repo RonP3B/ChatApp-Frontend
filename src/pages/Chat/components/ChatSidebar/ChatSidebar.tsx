@@ -4,7 +4,7 @@ import { useChatSidebarList } from "./ChatSidebarList/useChatSidebarList";
 import { ChatSidebarHeader } from "./ChatSidebarHeader/ChatSidebarHeader";
 import { ChatSidebarList } from "./ChatSidebarList/ChatSidebarList";
 
-export const ChatSidebar: React.FC = () => {
+export const ChatSidebar = () => {
   const { chatSidebarHeaderValues, chatSidebarHeaderActions } =
     useChatSidebarHeader();
 

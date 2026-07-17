@@ -19,10 +19,10 @@ import {
   Toolbar,
 } from "@mui/material";
 
-export const ChatSidebarHeader: React.FC<ChatSidebarHeaderProps> = ({
+export const ChatSidebarHeader = ({
   chatSidebarHeaderValues,
   chatSidebarHeaderActions,
-}) => {
+}: ChatSidebarHeaderProps) => {
   return (
     <Toolbar disableGutters sx={chatSidebarHeaderStyles.toolbarPadding}>
       <Box>

@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { noMessagesStyles } from "./noMessagesStyles";
 import UnsubscribeTwoToneIcon from "@mui/icons-material/UnsubscribeTwoTone";
 
-export const NoMessages: React.FC = () => {
+export const NoMessages = () => {
   return (
     <Box sx={noMessagesStyles.noMessagesContainer}>
       <UnsubscribeTwoToneIcon sx={noMessagesStyles.noMessagesIcon} />

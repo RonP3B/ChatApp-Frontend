@@ -3,7 +3,7 @@ import SearchOffIcon from "@mui/icons-material/SearchOff";
 import { userNotFoundStyles } from "./userNotFoundStyles";
 import { UserNotFoundProps } from "./UserNotFoundProps";
 
-export const UserNotFound: React.FC<UserNotFoundProps> = ({ username }) => {
+export const UserNotFound = ({ username }: UserNotFoundProps) => {
   return (
     <Box sx={userNotFoundStyles.conatiner}>
       <SearchOffIcon sx={userNotFoundStyles.icon} />

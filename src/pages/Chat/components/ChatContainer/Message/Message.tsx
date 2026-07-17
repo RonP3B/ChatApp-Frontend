@@ -5,13 +5,13 @@ import { formatDate } from "@/shared/utils";
 import { useMessage } from "./useMessage";
 import { messageStyles } from "./messageStyles";
 
-export const Message: React.FC<MessageProps> = ({
+export const Message = ({
   user,
   time,
   content,
   messageType,
   error,
-}) => {
+}: MessageProps) => {
   const { messageValues, messageActions } = useMessage(user, error);
 
   return (

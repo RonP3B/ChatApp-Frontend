@@ -2,7 +2,7 @@ import { chatAppAPI } from "@/shared/APIs";
 import { useRefreshToken } from "@/shared/hooks";
 import { RetryableRequestConfig } from "@/shared/types";
 import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import {
   authStatus,
   initialAuthState,
@@ -10,8 +10,10 @@ import {
   useAuthActions,
 } from "@/shared/contexts/AuthContext";
 
-export const ChatAppApiInterceptor: React.FC<{ children: React.ReactNode }> = ({
+export const ChatAppApiInterceptor = ({
   children,
+}: {
+  children: ReactNode;
 }) => {
   const auth = useAuth();
   const { setAuth } = useAuthActions();

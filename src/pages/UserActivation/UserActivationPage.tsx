@@ -6,7 +6,7 @@ import { authStyles } from "@/shared/styles";
 import { Link as RouterLink } from "react-router";
 import { userActivationStyles } from "./userActivationStyles";
 
-export const UserActivationPage: React.FC = () => {
+export const UserActivationPage = () => {
   const { username } = useParams();
   const { loading } = useUserActivation(username || "");
 

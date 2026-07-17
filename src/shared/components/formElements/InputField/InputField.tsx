@@ -2,7 +2,7 @@ import { useField } from "formik";
 import TextField from "@mui/material/TextField";
 import { InputFieldProps } from "./InputFieldProps";
 
-export const InputField: React.FC<InputFieldProps> = ({
+export const InputField = ({
   label,
   name,
   sx = {},
@@ -13,7 +13,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   margin = "none",
   disabled = false,
   autoComplete = "off",
-}) => {
+}: InputFieldProps) => {
   const [field, meta] = useField(name);
 
   return (

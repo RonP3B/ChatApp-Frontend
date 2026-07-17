@@ -10,7 +10,7 @@ import {
   SubmitButton,
 } from "@/shared/components";
 
-export const SignUpPage: React.FC = () => {
+export const SignUpPage = () => {
   const { signUpValues, signUpActions } = useSignUp();
 
   return (

@@ -2,8 +2,10 @@ import { useState, useMemo, ReactNode, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ColorModeContext } from "./ColorModeContext";
 
-export const ColorModeContextProvider: React.FC<{ children: ReactNode }> = ({
+export const ColorModeContextProvider = ({
   children,
+}: {
+  children: ReactNode;
 }) => {
   const [mode, setMode] = useState<"light" | "dark">(() => {
     const storedMode = localStorage.getItem("mode");

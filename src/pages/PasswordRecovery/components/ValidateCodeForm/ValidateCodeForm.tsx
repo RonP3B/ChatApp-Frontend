@@ -7,10 +7,10 @@ import { Fragment } from "react";
 import { validateCodeFormStyles } from "./validateCodeFormStyles";
 import { ValidateCodeFormProps } from "./ValidateCodeFormProps";
 
-export const ValidateCodeForm: React.FC<ValidateCodeFormProps> = ({
+export const ValidateCodeForm = ({
   setActiveStep,
   username,
-}) => {
+}: ValidateCodeFormProps) => {
   const { validateCodeFormValues, validateCodeFormActions } =
     useValidateCodeForm({ setActiveStep, username });
 

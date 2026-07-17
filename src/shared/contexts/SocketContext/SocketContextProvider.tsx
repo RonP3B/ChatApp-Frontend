@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import socketio, { Socket } from "socket.io-client";
 import { SocketContext } from "./SocketContext";
 import { SocketEvent } from "@/shared/enums";
@@ -7,8 +7,10 @@ import { useRefreshToken } from "@/shared/hooks";
 
 const MAX_RECONNECTION_ATTEMPTS = 5;
 
-export const SocketContextProvider: React.FC<{ children: React.ReactNode }> = ({
+export const SocketContextProvider = ({
   children,
+}: {
+  children: ReactNode;
 }) => {
   const currentUser = useCurrentUser();
   const { refreshAccessToken } = useRefreshToken();

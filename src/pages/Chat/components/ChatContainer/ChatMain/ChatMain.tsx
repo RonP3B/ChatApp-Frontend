@@ -5,7 +5,7 @@ import { useChatMain } from "./useChatMain";
 import { Message } from "../Message/Message";
 import { NoMessages } from "../../NoMessages/NoMessages";
 
-export const ChatMain: React.FC = () => {
+export const ChatMain = () => {
   const { chatMainValues } = useChatMain();
 
   return (

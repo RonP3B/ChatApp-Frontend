@@ -15,10 +15,10 @@ import {
   Avatar,
 } from "@mui/material";
 
-export const ChatSidebarListItem: React.FC<ChatSidebarListItemProps> = ({
+export const ChatSidebarListItem = ({
   isLoading,
   room,
-}) => {
+}: ChatSidebarListItemProps) => {
   const chatActions = useChatActions();
   const selectedChat = useSelectedChat();
 

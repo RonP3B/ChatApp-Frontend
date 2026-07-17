@@ -22,12 +22,12 @@ import {
   TextField,
 } from "@mui/material";
 
-export const MembersForm: React.FC<MembersFormProps> = ({
+export const MembersForm = ({
   handleClose,
   setActiveStep,
   setGroupMembers,
   groupMembers,
-}) => {
+}: MembersFormProps) => {
   const { membersFormValues, membersFormActions } = useMembersForm(
     setActiveStep,
     setGroupMembers,

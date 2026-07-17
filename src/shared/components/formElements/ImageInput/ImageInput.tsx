@@ -7,11 +7,11 @@ import { useImageInput } from "./useImageInput";
 import { ImageInputProps } from "./ImageInputProps";
 import { AcceptedFileTypes } from "@/shared/enums";
 
-export const ImageInput: React.FC<ImageInputProps> = ({
+export const ImageInput = ({
   name,
   label,
   variant,
-}) => {
+}: ImageInputProps) => {
   const formik = useFormikContext();
   const { imageInputValues, imageInputActions } = useImageInput(formik, name);
 

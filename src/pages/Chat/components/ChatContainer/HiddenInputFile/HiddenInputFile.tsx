@@ -1,10 +1,10 @@
 import { useHiddenInputFile } from "./useHiddenInputFile";
 import { HiddenInputFileProps } from "./HiddenInputFileProps";
 
-export const HiddenInputFile: React.FC<HiddenInputFileProps> = ({
+export const HiddenInputFile = ({
   customRef,
   fileType,
-}) => {
+}: HiddenInputFileProps) => {
   const { handleOnChangeInput } = useHiddenInputFile();
 
   return (

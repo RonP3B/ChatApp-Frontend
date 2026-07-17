@@ -5,10 +5,10 @@ import { Box, List } from "@mui/material";
 import { ChatSidebarListProps } from "./ChatSidebarListProps";
 import { ChatSidebarListItem } from "../ChatSidebarListItem/ChatSidebarListItem";
 
-export const ChatSidebarList: React.FC<ChatSidebarListProps> = ({
+export const ChatSidebarList = ({
   chatSidebarListValues,
   chatSidebarListActions,
-}) => {
+}: ChatSidebarListProps) => {
   return (
     <Box sx={chatSidebarListStyles.container}>
       {chatSidebarListValues.loading &&

@@ -16,7 +16,7 @@ import {
   Menu,
 } from "@mui/material";
 
-export const ChatFooter: React.FC = () => {
+export const ChatFooter = () => {
   const { chatFooterValues, chatFooterActions } = useChatFooter();
 
   return (

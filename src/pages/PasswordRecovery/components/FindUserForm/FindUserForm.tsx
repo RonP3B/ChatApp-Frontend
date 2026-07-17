@@ -4,10 +4,10 @@ import { authStyles } from "@/shared/styles";
 import { useFindUserForm } from "./useFindUserForm";
 import { FindUserFormProps } from "./FindUserFormProps";
 
-export const FindUserForm: React.FC<FindUserFormProps> = ({
+export const FindUserForm = ({
   setActiveStep,
   setUsername,
-}) => {
+}: FindUserFormProps) => {
   const { findUserFormValues, findUserFormActions } = useFindUserForm({
     setActiveStep,
     setUsername,

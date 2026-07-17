@@ -5,11 +5,11 @@ import { ImageInput, InputField, SubmitButton } from "@/shared/components";
 import { Box, Divider, Button } from "@mui/material";
 import { useGroupInfoForm } from "./useGroupInfoForm";
 
-export const GroupInfoForm: React.FC<GroupInfoFormProps> = ({
+export const GroupInfoForm = ({
   setActiveStep,
   handleClose,
   groupMembers,
-}) => {
+}: GroupInfoFormProps) => {
   const { groupInfoFormValues, groupInfoFormActions } = useGroupInfoForm(
     setActiveStep,
     handleClose,

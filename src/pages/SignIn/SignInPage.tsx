@@ -6,7 +6,7 @@ import { AuthModal, InputField, SubmitButton } from "@/shared/components";
 import { authStyles } from "@/shared/styles";
 import { signInStyles } from "./signInStyles";
 
-export const SignInPage: React.FC = () => {
+export const SignInPage = () => {
   const { signInValues, signInActions } = useSignIn();
 
   return (
