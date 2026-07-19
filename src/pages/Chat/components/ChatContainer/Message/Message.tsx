@@ -4,6 +4,8 @@ import { MessageType } from "@/shared/enums";
 import { formatDate } from "@/shared/utils";
 import { useMessage } from "./useMessage";
 import { messageStyles } from "./messageStyles";
+import { AudioPlayer } from "../AudioPlayer/AudioPlayer";
+import { registerPlayback } from "@/pages/Chat/utils";
 
 export const Message = ({
   user,
@@ -52,16 +54,17 @@ export const Message = ({
                 controls
                 src={content}
                 onLoadedData={messageActions.handleMediaLoad}
+                onPlay={(e: React.SyntheticEvent<HTMLVideoElement>) =>
+                  registerPlayback(e.currentTarget)
+                }
                 sx={messageStyles.messageMedia}
               />
             </Box>
           )}
           {messageType === MessageType.AUDIO && (
-            <Box
-              component="audio"
-              controls
+            <AudioPlayer
               src={content}
-              sx={messageStyles.messageAudio}
+              color={messageValues.dynamicMessageStyles.textColor.color}
             />
           )}
           {messageType === MessageType.TEXT && content}
