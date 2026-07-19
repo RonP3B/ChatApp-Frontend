@@ -27,11 +27,6 @@ export const messageStyles = {
     boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
   },
 
-  messageAudio: {
-    maxWidth: "100%",
-    marginTop: "8px",
-  },
-
   errorText: {
     color: "darkred",
   },
