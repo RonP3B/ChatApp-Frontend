@@ -6,6 +6,7 @@ import { Message } from "@/shared/types";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
 import { SendMessageValues } from "@/pages/Chat/types";
 import { nanoid } from "nanoid";
+import { useVoiceRecorder } from "../VoiceRecorder/useVoiceRecorder";
 import {
   useState,
   useRef,
@@ -33,9 +34,13 @@ export const useChatFooter = () => {
   const textMsgToSend = useChatDraft();
   const chatActions = useChatActions();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { voiceRecorderValues, voiceRecorderActions } = useVoiceRecorder(
+    selectedChat?.id
+  );
 
   const open: boolean = Boolean(anchorEl);
-  const disableButton: boolean = !textMsgToSend.trim();
+  const isIdle = voiceRecorderValues.status === "idle";
+  const showMicButton = isIdle && !textMsgToSend.trim();
 
   const fileInputRefs: {
     [key: string]: MutableRefObject<HTMLInputElement | null>;
@@ -119,6 +124,12 @@ export const useChatFooter = () => {
     }
   };
 
+  const handlePrimaryAction = (): void => {
+    if (showMicButton) voiceRecorderActions.startRecording();
+    else if (!isIdle) voiceRecorderActions.sendRecording();
+    else sendTextMessage();
+  };
+
   return {
     chatFooterValues: {
       textMsgToSend,
@@ -127,14 +138,17 @@ export const useChatFooter = () => {
       fileInputRefs,
       fileInputs,
       menuItems,
-      disableButton,
+      showMicButton,
+      isIdle,
+      voiceRecorder: voiceRecorderValues,
     },
     chatFooterActions: {
       handleInputChange,
       handleClick,
       handleClose,
       handleFileInputClick,
-      sendTextMessage,
+      handlePrimaryAction,
+      cancelRecording: voiceRecorderActions.cancelRecording,
     },
   };
 };
