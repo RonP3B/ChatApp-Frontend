@@ -32,43 +32,47 @@ export const Message = ({
         >
           {user.username}
         </Typography>
-        <Typography
-          variant="body1"
-          sx={messageValues.dynamicMessageStyles.textColor}
-        >
-          {messageType === MessageType.IMAGE && (
-            <Box component="span" sx={messageValues.mediaPlaceholderStyles}>
-              <Box
-                component="img"
-                src={content}
-                alt="Message Image"
-                onLoad={messageActions.handleMediaLoad}
-                sx={messageStyles.messageMedia}
-              />
-            </Box>
-          )}
-          {messageType === MessageType.VIDEO && (
-            <Box component="span" sx={messageValues.mediaPlaceholderStyles}>
-              <Box
-                component="video"
-                controls
-                src={content}
-                onLoadedData={messageActions.handleMediaLoad}
-                onPlay={(e: React.SyntheticEvent<HTMLVideoElement>) =>
-                  registerPlayback(e.currentTarget)
-                }
-                sx={messageStyles.messageMedia}
-              />
-            </Box>
-          )}
-          {messageType === MessageType.AUDIO && (
+        {messageType === MessageType.TEXT && (
+          <Typography
+            variant="body1"
+            sx={messageValues.dynamicMessageStyles.textColor}
+          >
+            {content}
+          </Typography>
+        )}
+        {messageType === MessageType.IMAGE && (
+          <Box component="span" sx={messageValues.mediaPlaceholderStyles}>
+            <Box
+              component="img"
+              src={content}
+              alt="Message Image"
+              onLoad={messageActions.handleMediaLoad}
+              sx={messageStyles.messageMedia}
+            />
+          </Box>
+        )}
+        {messageType === MessageType.VIDEO && (
+          <Box component="span" sx={messageValues.mediaPlaceholderStyles}>
+            <Box
+              component="video"
+              controls
+              src={content}
+              onLoadedData={messageActions.handleMediaLoad}
+              onPlay={(e: React.SyntheticEvent<HTMLVideoElement>) =>
+                registerPlayback(e.currentTarget)
+              }
+              sx={messageStyles.messageMedia}
+            />
+          </Box>
+        )}
+        {messageType === MessageType.AUDIO && (
+          <Box>
             <AudioPlayer
               src={content}
               color={messageValues.dynamicMessageStyles.textColor.color}
             />
-          )}
-          {messageType === MessageType.TEXT && content}
-        </Typography>
+          </Box>
+        )}
         {!error ? (
           <Typography
             variant="body2"

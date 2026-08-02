@@ -3,46 +3,38 @@ export const getAudioPlayerStyles = (color: string) => ({
     display: "inline-flex",
     alignItems: "center",
     gap: 0.5,
-    width: 210,
-    marginTop: "6px",
+    width: "clamp(130px, 48vw, 210px)",
+    marginTop: "2px",
+    "@media (max-width: 278px)": {
+      width: 100,
+    },
   },
 
   playButton: {
-    padding: "4px",
+    padding: "2px",
     color,
-    borderWidth: "1.5px",
-    borderStyle: "solid",
-    borderColor: color,
+    flexShrink: 0,
   },
 
   icon: {
-    fontSize: "1.3rem",
+    fontSize: { xs: "1.8rem", sm: "1.9rem", md: "2rem" },
   },
 
   slider: {
+    color,
     mx: 0.5,
-    padding: "10px 0 !important",
+    flexGrow: 1,
+    minWidth: 0,
 
     "& .MuiSlider-thumb": {
       width: 10,
       height: 10,
       backgroundColor: color,
       boxShadow: "none",
-
-      "&:hover, &.Mui-focusVisible, &.Mui-active": {
-        boxShadow: "none",
-      },
+      "&:hover, &.Mui-focusVisible, &.Mui-active": { boxShadow: "none" },
     },
-
-    "& .MuiSlider-track": {
-      backgroundColor: color,
-      border: "none",
-    },
-
-    "& .MuiSlider-rail": {
-      backgroundColor: color,
-      opacity: 0.3,
-    },
+    "& .MuiSlider-track": { backgroundColor: color, border: "none" },
+    "& .MuiSlider-rail": { backgroundColor: color, opacity: 0.3 },
   },
 
   time: {
@@ -51,5 +43,6 @@ export const getAudioPlayerStyles = (color: string) => ({
     minWidth: 30,
     textAlign: "right",
     fontVariantNumeric: "tabular-nums",
+    flexShrink: 0,
   },
 });

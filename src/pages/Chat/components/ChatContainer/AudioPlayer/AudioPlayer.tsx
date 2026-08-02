@@ -7,10 +7,10 @@ import { getAudioPlayerStyles } from "./audioPlayerStyles";
 
 export const AudioPlayer = ({ src, color }: AudioPlayerProps) => {
   const { audioPlayerValues, audioPlayerActions } = useAudioPlayer();
-  const audioPlayerStyles = getAudioPlayerStyles(color);
+  const styles = getAudioPlayerStyles(color);
 
   return (
-    <Box component="span" sx={audioPlayerStyles.container}>
+    <Box component="span" sx={styles.container}>
       <audio
         ref={audioPlayerActions.audioRef}
         src={src}
@@ -24,13 +24,12 @@ export const AudioPlayer = ({ src, color }: AudioPlayerProps) => {
       />
       <IconButton
         onClick={audioPlayerActions.togglePlay}
-        size="small"
-        sx={audioPlayerStyles.playButton}
+        sx={styles.playButton}
       >
         {audioPlayerValues.isPlaying ? (
-          <PauseRoundedIcon sx={audioPlayerStyles.icon} />
+          <PauseRoundedIcon sx={styles.icon} />
         ) : (
-          <PlayArrowRoundedIcon sx={audioPlayerStyles.icon} />
+          <PlayArrowRoundedIcon sx={styles.icon} />
         )}
       </IconButton>
       <Slider
@@ -39,9 +38,9 @@ export const AudioPlayer = ({ src, color }: AudioPlayerProps) => {
         max={audioPlayerValues.duration || 1}
         onChange={audioPlayerActions.handleSeek}
         onChangeCommitted={audioPlayerActions.handleSeekCommitted}
-        sx={audioPlayerStyles.slider}
+        sx={styles.slider}
       />
-      <Typography variant="caption" sx={audioPlayerStyles.time}>
+      <Typography variant="caption" sx={styles.time}>
         {audioPlayerValues.displayTime}
       </Typography>
     </Box>

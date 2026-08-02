@@ -1,9 +1,8 @@
-import { formatAudioDuration, registerPlayback } from "@/pages/Chat/utils";
+import { registerPlayback, formatAudioDuration } from "@/pages/Chat/utils";
 import { useRef, useState } from "react";
 
 export const useAudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const isSeekingRef = useRef<boolean>(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
@@ -20,27 +19,37 @@ export const useAudioPlayer = () => {
     setIsPlaying(true);
   };
 
-  const handlePause = (): void => {
-    setIsPlaying(false);
-  };
+  const handlePause = (): void => setIsPlaying(false);
 
   const handleLoadedMetadata = (): void => {
-    if (audioRef.current) setDuration(audioRef.current.duration);
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    const isMissingDuration =
+      !Number.isFinite(audio.duration) || audio.duration === 0;
+
+    if (isMissingDuration) {
+      const handleDurationChange = (): void => {
+        if (!Number.isFinite(audio.duration) || audio.duration === 0) return;
+        audio.removeEventListener("durationchange", handleDurationChange);
+        audio.currentTime = 0;
+        setDuration(audio.duration);
+      };
+      audio.addEventListener("durationchange", handleDurationChange);
+      audio.currentTime = 1e101;
+    } else {
+      setDuration(audio.duration);
+    }
   };
 
   const handleTimeUpdate = (): void => {
-    if (isSeekingRef.current || !audioRef.current) return;
-    setCurrentTime(audioRef.current.currentTime);
+    if (audioRef.current) setCurrentTime(audioRef.current.currentTime);
   };
 
-  const handleEnded = (): void => {
-    setCurrentTime(0);
-    // No need to setIsPlaying(false) here — the browser always fires
-    // pause right before ended, so handlePause already covers it.
-  };
+  const handleEnded = (): void => setCurrentTime(0);
 
   const handleSeek = (_event: Event, value: number | number[]): void => {
-    isSeekingRef.current = true;
     setCurrentTime(Array.isArray(value) ? value[0] : value);
   };
 
@@ -50,7 +59,6 @@ export const useAudioPlayer = () => {
   ): void => {
     const newTime = Array.isArray(value) ? value[0] : value;
     if (audioRef.current) audioRef.current.currentTime = newTime;
-    isSeekingRef.current = false;
   };
 
   const displayTime = formatAudioDuration(
