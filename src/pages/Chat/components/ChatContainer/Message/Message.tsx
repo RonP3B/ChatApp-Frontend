@@ -6,6 +6,7 @@ import { useMessage } from "./useMessage";
 import { messageStyles } from "./messageStyles";
 import { AudioPlayer } from "../AudioPlayer/AudioPlayer";
 import { registerPlayback } from "@/pages/Chat/utils";
+import { ImageLightbox } from "../ImageLightbox/ImageLightbox";
 
 export const Message = ({
   user,
@@ -47,7 +48,13 @@ export const Message = ({
               src={content}
               alt="Message Image"
               onLoad={messageActions.handleMediaLoad}
-              sx={messageStyles.messageMedia}
+              onClick={messageActions.openImageLightbox}
+              sx={[messageStyles.messageMedia, messageStyles.clickableImage]}
+            />
+            <ImageLightbox
+              src={content}
+              isOpen={messageValues.isImageLightboxOpen}
+              onClose={messageActions.closeImageLightbox}
             />
           </Box>
         )}

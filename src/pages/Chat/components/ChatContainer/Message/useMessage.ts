@@ -1,6 +1,7 @@
 import { useState, ReactEventHandler } from "react";
 import { User } from "@/shared/types";
 import { useCurrentUser } from "@/shared/contexts/AuthContext";
+import { useImageLightbox } from "../ImageLightbox/useImageLightbox";
 import {
   getDynamicMessageStyles,
   getMediaPlaceholderStyles,
@@ -11,6 +12,7 @@ export const useMessage = (user: User, error: boolean) => {
   const currentUser = useCurrentUser();
   const isLoggedUser: boolean = user.id === currentUser.user.id;
   const dynamicMessageStyles = getDynamicMessageStyles(isLoggedUser, error);
+  const { imageLightboxValues, imageLightboxActions } = useImageLightbox();
 
   // Reserves the media's worst-case final height before it has loaded, so
   // useChatMain's scroll-to-bottom effect (which fires as soon as the message
@@ -32,7 +34,12 @@ export const useMessage = (user: User, error: boolean) => {
       dynamicMessageStyles,
       mediaPlaceholderStyles,
       isLoggedUser,
+      isImageLightboxOpen: imageLightboxValues.isOpen,
     },
-    messageActions: { handleMediaLoad },
+    messageActions: {
+      handleMediaLoad,
+      openImageLightbox: imageLightboxActions.openLightbox,
+      closeImageLightbox: imageLightboxActions.closeLightbox,
+    },
   };
 };
